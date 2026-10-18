@@ -9,7 +9,7 @@ struct DFA
         const std::set<Q_t>&, const Q_t&,
         const std::unordered_map< std::pair<Q_t, S_t>, Q_t>&);
 
-    bool operator()(const std::vector<S_t>&word, bool verbose=false)
+    bool operator()(const std::vector<S_t>&word, bool verbose=false);
     Q_t q0_;
     std::set< Q_t > Q_;
     std::set< S_t > alphabet_;
