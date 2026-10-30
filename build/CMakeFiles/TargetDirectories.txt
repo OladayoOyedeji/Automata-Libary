@@ -1,0 +1,5 @@
+/home/student/Desktop/Project/Automata/build/CMakeFiles/Automata.dir
+/home/student/Desktop/Project/Automata/build/CMakeFiles/r.dir
+/home/student/Desktop/Project/Automata/build/CMakeFiles/c.dir
+/home/student/Desktop/Project/Automata/build/CMakeFiles/edit_cache.dir
+/home/student/Desktop/Project/Automata/build/CMakeFiles/rebuild_cache.dir
