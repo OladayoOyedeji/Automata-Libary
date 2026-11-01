@@ -1,0 +1,288 @@
+\doxysection{DFA.\+h}
+\hypertarget{DFA_8h_source}{}\label{DFA_8h_source}\index{include/DFA.h@{include/DFA.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ DFA\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ DFA\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}STL\_util.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t\ >}
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classDFA}{DFA}};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t\ >}
+\DoxyCodeLine{00010\ \textcolor{keywordtype}{void}\ walk(\textcolor{keyword}{const}\ pair<Q\_t,\ Q\_t>\ \&\ qi,}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ unordered\_map<\ pair<Q\_t,\ S\_t>,\ Q\_t>\ \&\ delta0,}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ unordered\_map<\ pair<Q\_t,\ S\_t>,\ Q\_t>\ \&\ delta1,}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ unordered\_map<\ pair<\ pair<Q\_t,\ Q\_t>\ ,\ S\_t>,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ pair<Q\_t,\ Q\_t>\ >\ \&\ delta\_,\ \textcolor{keyword}{const}\ unordered\_set<S\_t>\ \&\ alphabet,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ unordered\_set<\ pair<Q\_t,\ Q\_t>\ >\ \&\ states);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }DFA}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{using\ }SetUq\ =\ unordered\_set<Q\_t>;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{using\ }SetUs\ =\ unordered\_set<S\_t>;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{using\ }SuperSetUq\ =\ unordered\_set<\ SetUq\ >;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{using\ }PairQS\ =\ pair<Q\_t,\ S\_t>;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{using\ }PairQQ\ =\ pair<Q\_t,\ Q\_t>;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{using\ }Mapt\ =\ unordered\_map<PairQS,\ Q\_t>;}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ DFA(\textcolor{keyword}{const}\ SetUs\ \&\ sigma,\ \textcolor{keyword}{const}\ SetUq\ \&\ Q,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ SetUq\ \&\ F,\ \ \ \ \ \textcolor{keyword}{const}\ Q\_t\ \ \ \&\ q0,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Mapt\ \ \&\ delta);}
+\DoxyCodeLine{00030\ \ \ \ \ DFA(\textcolor{keyword}{const}\ DFA\ \&\ M);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator()(\textcolor{keyword}{const}\ vector<S\_t>\ \&\ word,\ \textcolor{keywordtype}{bool}\ verbose=\textcolor{keyword}{false});}
+\DoxyCodeLine{00032\ \ \ \ \ SuperSetUq\ Moore\_partition\_(\textcolor{keyword}{const}\ SuperSetUq\ \&\ P)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \ \ \ \ SuperSetUq\ Moore\_partition(\textcolor{keyword}{const}\ SetUq\ \&\ S,\ \textcolor{keyword}{const}\ SuperSetUq\ \&\ P);}
+\DoxyCodeLine{00034\ \ \ \ \ DFA<SetUq,\ S\_t>\ minimizeDFA()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ DFA<PairQQ,\ S\_t>\ intersection\_(\textcolor{keyword}{const}\ DFA\ \&\ M)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \ \ \ \ DFA<PairQQ,\ S\_t>\ union\_(\ \ \ \ \ \ \ \textcolor{keyword}{const}\ DFA\ \&\ M)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ DFA\ \&\ compDFA();}
+\DoxyCodeLine{00038\ \ \ \ \ DFA<int,\ S\_t>\ baseDFA()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ Q\_t\ \ \ q0\_;}
+\DoxyCodeLine{00041\ \ \ \ \ SetUq\ Q\_;}
+\DoxyCodeLine{00042\ \ \ \ \ SetUs\ sigma\_;}
+\DoxyCodeLine{00043\ \ \ \ \ Mapt\ \ delta\_;}
+\DoxyCodeLine{00044\ \ \ \ \ SetUq\ F\_;}
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00048\ DFA<Q\_t,\ S\_t>::DFA(\textcolor{keyword}{const}\ SetUs\ \&\ sigma,\ \textcolor{keyword}{const}\ SetUq\ \&\ Q,}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{const}\ SetUq\ \&\ F,\ \ \ \ \ \textcolor{keyword}{const}\ Q\_t\ \ \ \&\ q0,}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{const}\ Mapt\ \ \&\ delta)}
+\DoxyCodeLine{00051\ \ \ \ \ :\ q0\_(q0),\ Q\_(Q),\ sigma\_(sigma),\ delta\_(delta),\ F\_(F)}
+\DoxyCodeLine{00052\ \{\}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00055\ DFA<Q\_t,\ S\_t>::DFA(\textcolor{keyword}{const}\ \mbox{\hyperlink{classDFA}{DFA}}\ \&\ M)}
+\DoxyCodeLine{00056\ \ \ \ \ :\ q0\_(M.q0\_),\ Q\_(M.Q\_),\ sigma\_(M.sigma\_),\ delta\_(M.delta\_),\ F\_(M.F\_)}
+\DoxyCodeLine{00057\ \{\}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{bool}\ DFA<Q\_t,\ S\_t>::operator()(\textcolor{keyword}{const}\ vector<S\_t>\ \&\ word,\ \textcolor{keywordtype}{bool}\ verbose)}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ Q\_t\ q\ =\ q0\_;}
+\DoxyCodeLine{00063\ \ \ \ \ std::cout\ <<\ word\ <<\ std::endl;}
+\DoxyCodeLine{00064\ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ word.size();\ ++i)}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ q\ =\ delta\_[\{q,word[i]\}];}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (verbose)}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ vector<S\_t>\ v(word.begin()\ +\ i\ +\ 1,\ word.end());}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ std::pair<Q\_t,\ std::vector<S\_t>>(q,\ v)\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ word[i]\ <<\ std::endl;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{return}\ is\_member(q,\ F\_);}
+\DoxyCodeLine{00077\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00080\ \textcolor{keyword}{typename}\ DFA<Q\_t,\ S\_t>::SuperSetUq}
+\DoxyCodeLine{00081\ DFA<Q\_t,\ S\_t>::Moore\_partition\_(\textcolor{keyword}{const}\ SuperSetUq\ \&\ P)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00082\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{00083\ \ \ \ \ SuperSetUq\ next;}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ block:\ P)}
+\DoxyCodeLine{00085\ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ SuperSetUq\ peices\ =\ partition(block,\ P);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ next.insert(peices);}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{return}\ next;}
+\DoxyCodeLine{00090\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00093\ \textcolor{keyword}{typename}\ DFA<Q\_t,\ S\_t>::SuperSetUq}
+\DoxyCodeLine{00094\ DFA<Q\_t,\ S\_t>::Moore\_partition(\textcolor{keyword}{const}\ SetUq\ \&\ S,\ \textcolor{keyword}{const}\ SuperSetUq\ \&\ P)}
+\DoxyCodeLine{00095\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ vector<SetUq>\ vecP(P.begin(),\ P.end());}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ unordered\_map<\ unordered\_set<int>,\ SetUq>\ P\_k;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ q:\ S)}
+\DoxyCodeLine{00102\ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ unordered\_set<int>\ index;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a:\ sigma\_)}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ Q\_t\ qf\ =\ delta\_[\{q,\ a\}];}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ vecP.size();\ ++i)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_member(qf,\ vecP[i]))}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index.insert(i);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ P\_k[index].insert(q);}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ SuperSetUq\ result;}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ kv:\ P\_k)}
+\DoxyCodeLine{00122\ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ result.insert(kv.second);}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00127\ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00130\ \mbox{\hyperlink{classDFA}{DFA<typename\ DFA<Q\_t,\ S\_t>::SetUq}},\ S\_t>\ DFA<Q\_t,\ S\_t>::minimizeDFA()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00131\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{00132\ \ \ \ \ SuperSetUq\ P;}
+\DoxyCodeLine{00133\ \ \ \ \ P.insert(Q\_\ -\/\ F\_);\ P.insert(F\_);}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{00136\ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ SuperSetUq\ P\_t\ =\ Moore\_partition(P);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (P\_t\ ==\ P)}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ P\ =\ P\_t;}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ SuperSetUq\ Q\ =\ P;}
+\DoxyCodeLine{00146\ \ \ \ \ SetUq\ q0;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//\ return\ DFA<\ SetUq,\ S\_t>(sigma\_,\ Q,\ F,\ q0,\ delta);}}
+\DoxyCodeLine{00149\ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00152\ \mbox{\hyperlink{classDFA}{DFA<typename\ DFA<Q\_t,\ S\_t>::PairQQ}},\ S\_t>}
+\DoxyCodeLine{00153\ DFA<Q\_t,\ S\_t>::intersection\_(\textcolor{keyword}{const}\ \mbox{\hyperlink{classDFA}{DFA}}\ \&\ M)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00154\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{00155\ \ \ \ \ SetUs\ \ \ \ \ \ \ sigma\ =\ sigma\_\ \&\ M.sigma\_;}
+\DoxyCodeLine{00156\ \ \ \ \ unordered\_set<PairQQ>\ states;}
+\DoxyCodeLine{00157\ \ \ \ \ unordered\_set<PairQQ>\ final\_\ =\ F\_\ *\ M.F\_;}
+\DoxyCodeLine{00158\ \ \ \ \ PairQQ\ \ \ \ \ \ start\ =\ PairQQ(q0\_,\ M.q0\_);}
+\DoxyCodeLine{00159\ \ \ \ \ unordered\_map<\ pair<\ PairQQ,\ S\_t\ >,\ PairQQ\ >\ delta;}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ walk<Q\_t,\ S\_t>(start,\ delta\_,\ M.delta\_,\ delta,\ sigma,\ states);}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classDFA}{DFA<\ PairQQ,\ S\_t\ >}}(sigma,\ states,\ final\_,\ start,\ delta);}
+\DoxyCodeLine{00164\ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00167\ \mbox{\hyperlink{classDFA}{DFA<typename\ DFA<Q\_t,\ S\_t>::PairQQ}},\ S\_t>}
+\DoxyCodeLine{00168\ DFA<Q\_t,\ S\_t>::union\_(\textcolor{keyword}{const}\ \mbox{\hyperlink{classDFA}{DFA}}\ \&\ M)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00169\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{00170\ \ \ \ \ SetUs\ \ \ \ \ \ \ sigma\ =\ sigma\_\ \&\ M.sigma\_;}
+\DoxyCodeLine{00171\ \ \ \ \ unordered\_set<PairQQ>\ states;}
+\DoxyCodeLine{00172\ \ \ \ \ unordered\_set<PairQQ>\ final\_\ =\ (F\_\ *\ M.Q\_)\ |\ (M.F\_\ *\ Q\_);}
+\DoxyCodeLine{00173\ \ \ \ \ PairQQ\ \ \ \ \ \ start\ =\ PairQQ(q0\_,\ M.q0\_);}
+\DoxyCodeLine{00174\ \ \ \ \ unordered\_map<\ pair<\ PairQQ,\ S\_t\ >,\ PairQQ\ >\ delta;}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ walk<Q\_t,\ S\_t>(start,\ delta\_,\ M.delta\_,\ delta,\ sigma,\ states);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classDFA}{DFA<\ PairQQ,\ S\_t\ >}}(sigma,\ states,\ final\_,\ start,\ delta);}
+\DoxyCodeLine{00179\ \}\ }
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00182\ \mbox{\hyperlink{classDFA}{DFA<Q\_t,\ S\_t>}}\ \&\ DFA<Q\_t,\ S\_t>::compDFA()}
+\DoxyCodeLine{00183\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ F\_\ =\ Q\_\ -\/\ F\_;}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00187\ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00190\ \mbox{\hyperlink{classDFA}{DFA<int,\ S\_t>}}\ baseDFA(\textcolor{keywordtype}{int}\ start)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00191\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{00192\ \ \ \ \ unordered\_map<Q\_t,\ int>\ mapper;}
+\DoxyCodeLine{00193\ \ \ \ \ SetUi\ Q;}
+\DoxyCodeLine{00194\ \ \ \ \ Q.insert(start);}
+\DoxyCodeLine{00195\ \ \ \ \ mapper[q0\_]\ =\ start;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ SetUq\ Q\_i\ =\ Q\_;}
+\DoxyCodeLine{00198\ \ \ \ \ Q\_i.erase(q0\_);}
+\DoxyCodeLine{00199\ \ \ \ \ }
+\DoxyCodeLine{00200\ \ \ \ \ SetUi\ F;}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_member(q0\_,\ F\_))}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ F.insert(start);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ start\ +\ 1;}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ p:\ Q\_i)}
+\DoxyCodeLine{00206\ \ \ \ \ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ mapper[p]\ =\ i;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ Q.insert(i);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_member(p,\ F\_))}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ F.insert(i);}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{00214\ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \ \ unordered\_map<\ pair<int,\ S\_t>,\ \textcolor{keywordtype}{int}>\ delta;}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ q:\ Q\_)}
+\DoxyCodeLine{00218\ \ \ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ key\ =\ mapper[q];}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a:\ sigma\_)}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ delta\_.find(\{q,\ a\});}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ delta\_.end())}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ p\ =\ it-\/>second;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ value\ =\ mapper[p];}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ delta[\{key,\ a\}].insert(value);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classDFA}{DFA<int,\ S\_t>}}(sigma\_,\ Q,\ F,\ start,\ delta);}
+\DoxyCodeLine{00233\ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ Q\_t,\ \textcolor{keyword}{typename}\ S\_t>}
+\DoxyCodeLine{00236\ \textcolor{keywordtype}{void}\ walk(\textcolor{keyword}{const}\ pair<Q\_t,\ Q\_t>\ \&\ qi,}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ unordered\_map<\ pair<Q\_t,\ S\_t>,\ Q\_t>\ \&\ delta0,}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ unordered\_map<\ pair<Q\_t,\ S\_t>,\ Q\_t>\ \&\ delta1,}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ unordered\_map<\ pair<\ pair<Q\_t,\ Q\_t>\ ,\ S\_t>,}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ pair<Q\_t,\ Q\_t>\ >\ \&\ delta\_,\ \textcolor{keyword}{const}\ unordered\_set<S\_t>\ \&\ sigma,}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ unordered\_set<\ pair<Q\_t,\ Q\_t>\ >\ \&\ states)}
+\DoxyCodeLine{00242\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_member(qi,\ states))}
+\DoxyCodeLine{00244\ \ \ \ \ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00246\ \ \ \ \ \}}
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00248\ \ \ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ states.insert(qi);}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ Q\_t\ a\ =\ qi.first;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ Q\_t\ b\ =\ qi.second;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ p:\ sigma)}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ pair<Q\_t,\ S\_t>\ key0\ =\ \ pair<Q\_t,\ S\_t>(a,\ p);}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ pair<Q\_t,\ S\_t>\ key1\ =\ \ pair<Q\_t,\ S\_t>(b,\ p);}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ Q\_t\ value\ =\ delta0.at(key0);}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ pair<Q\_t,\ Q\_t>\ qi1\ =\ pair<Q\_t,\ Q\_t>(delta0.at(key0),\ delta1.at(key1));\ }
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ delta\_[\{qi,\ p\}]\ =\ qi1;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ walk(qi1,\ delta0,\ delta1,\ delta\_,\ sigma,\ states);}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00266\ \ \ \ \ \}}
+\DoxyCodeLine{00267\ \}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ S\_t,\ \textcolor{keyword}{typename}\ Q\_t\ >}
+\DoxyCodeLine{00270\ ostream\ \&\ operator<<(ostream\ \&\ cout,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classDFA}{DFA<\ S\_t,\ Q\_t\ >}}\ \&\ M)}
+\DoxyCodeLine{00271\ \{}
+\DoxyCodeLine{00272\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}M:"{}}\ <<\ endl;}
+\DoxyCodeLine{00273\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)tSigma:\ "{}}\ <<\ M.sigma\_\ <<\ endl;}
+\DoxyCodeLine{00274\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)tStart\ State:\ "{}}\ <<\ M.q0\_\ <<\ endl;}
+\DoxyCodeLine{00275\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)tSet\ of\ States:\ "{}}\ <<\ M.Q\_\ <<\ endl;}
+\DoxyCodeLine{00276\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)tTransitions:\ "{}}\ <<\ M.delta\_\ <<\ endl;}
+\DoxyCodeLine{00277\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)tFinal\ States:\ "{}}\ <<\ M.F\_\ <<\ endl;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keywordflow}{return}\ cout;}
+\DoxyCodeLine{00280\ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

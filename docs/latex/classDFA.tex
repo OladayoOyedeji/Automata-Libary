@@ -1,0 +1,80 @@
+\doxysection{DFA\texorpdfstring{$<$}{<} Q\+\_\+t, S\+\_\+t \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classDFA}{}\label{classDFA}\index{DFA$<$ Q\_t, S\_t $>$@{DFA$<$ Q\_t, S\_t $>$}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDFA_aa774eaca9161cdc62f36c37ee126ba38}\label{classDFA_aa774eaca9161cdc62f36c37ee126ba38} 
+{\bfseries DFA} (const Set\+Us \&sigma, const Set\+Uq \&Q, const Set\+Uq \&F, const Q\+\_\+t \&q0, const Mapt \&delta)
+\item 
+\Hypertarget{classDFA_a00b7c404ce2bd8388b07c97ca26c96af}\label{classDFA_a00b7c404ce2bd8388b07c97ca26c96af} 
+{\bfseries DFA} (const \mbox{\hyperlink{classDFA}{DFA}} \&M)
+\item 
+\Hypertarget{classDFA_ae4e46cc8f09014347cdec2b76a568578}\label{classDFA_ae4e46cc8f09014347cdec2b76a568578} 
+bool {\bfseries operator()} (const vector$<$ S\+\_\+t $>$ \&word, bool verbose=false)
+\item 
+\Hypertarget{classDFA_ad55903688c5553dccc4c2521e26a1f81}\label{classDFA_ad55903688c5553dccc4c2521e26a1f81} 
+Super\+Set\+Uq {\bfseries Moore\+\_\+partition\+\_\+} (const Super\+Set\+Uq \&P) const
+\item 
+\Hypertarget{classDFA_a7e89bcbb97fe2d6ecc9e4244ecb91418}\label{classDFA_a7e89bcbb97fe2d6ecc9e4244ecb91418} 
+Super\+Set\+Uq {\bfseries Moore\+\_\+partition} (const Set\+Uq \&S, const Super\+Set\+Uq \&P)
+\item 
+\Hypertarget{classDFA_ab16fe58b9237f3d78720d41a9650b1cd}\label{classDFA_ab16fe58b9237f3d78720d41a9650b1cd} 
+\mbox{\hyperlink{classDFA}{DFA}}$<$ Set\+Uq, S\+\_\+t $>$ {\bfseries minimize\+DFA} () const
+\item 
+\Hypertarget{classDFA_aba97577abb184db3f80a950383c7e7d8}\label{classDFA_aba97577abb184db3f80a950383c7e7d8} 
+\mbox{\hyperlink{classDFA}{DFA}}$<$ Pair\+QQ, S\+\_\+t $>$ {\bfseries intersection\+\_\+} (const \mbox{\hyperlink{classDFA}{DFA}} \&M) const
+\item 
+\Hypertarget{classDFA_a7dc68efe5421b5872631977f217d506e}\label{classDFA_a7dc68efe5421b5872631977f217d506e} 
+\mbox{\hyperlink{classDFA}{DFA}}$<$ Pair\+QQ, S\+\_\+t $>$ {\bfseries union\+\_\+} (const \mbox{\hyperlink{classDFA}{DFA}} \&M) const
+\item 
+\Hypertarget{classDFA_afa66c4b66d0b527007fde187f18f881f}\label{classDFA_afa66c4b66d0b527007fde187f18f881f} 
+\mbox{\hyperlink{classDFA}{DFA}} \& {\bfseries comp\+DFA} ()
+\item 
+\Hypertarget{classDFA_aa4f16fa384d7370affbaa7fa3520f292}\label{classDFA_aa4f16fa384d7370affbaa7fa3520f292} 
+\mbox{\hyperlink{classDFA}{DFA}}$<$ int, S\+\_\+t $>$ {\bfseries base\+DFA} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDFA_a242374f475e72b6628b9cc5121021356}\label{classDFA_a242374f475e72b6628b9cc5121021356} 
+Q\+\_\+t {\bfseries q0\+\_\+}
+\item 
+\Hypertarget{classDFA_ae10169580c9720841a02f11419244311}\label{classDFA_ae10169580c9720841a02f11419244311} 
+Set\+Uq {\bfseries Q\+\_\+}
+\item 
+\Hypertarget{classDFA_affe7d98d8350871f1855e44189dac7dd}\label{classDFA_affe7d98d8350871f1855e44189dac7dd} 
+Set\+Us {\bfseries sigma\+\_\+}
+\item 
+\Hypertarget{classDFA_a8191b18d2abe9a72b86d5841b4e6f8ab}\label{classDFA_a8191b18d2abe9a72b86d5841b4e6f8ab} 
+Mapt {\bfseries delta\+\_\+}
+\item 
+\Hypertarget{classDFA_a224d69704bc9aeb17e7de00b55750d6c}\label{classDFA_a224d69704bc9aeb17e7de00b55750d6c} 
+Set\+Uq {\bfseries F\+\_\+}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDFA_a75d73acbfc18627684ff300d3a043d5d}\label{classDFA_a75d73acbfc18627684ff300d3a043d5d} 
+using {\bfseries Set\+Uq} = unordered\+\_\+set$<$Q\+\_\+t$>$
+\item 
+\Hypertarget{classDFA_a86469e87d5832a6328fdb7202fa3a0a2}\label{classDFA_a86469e87d5832a6328fdb7202fa3a0a2} 
+using {\bfseries Set\+Us} = unordered\+\_\+set$<$S\+\_\+t$>$
+\item 
+\Hypertarget{classDFA_a84da25ee716e1d3aec319b1c079a86f0}\label{classDFA_a84da25ee716e1d3aec319b1c079a86f0} 
+using {\bfseries Super\+Set\+Uq} = unordered\+\_\+set$<$ Set\+Uq $>$
+\item 
+\Hypertarget{classDFA_aafc8d579160eedbfe07ead45230864c9}\label{classDFA_aafc8d579160eedbfe07ead45230864c9} 
+using {\bfseries Pair\+QS} = pair$<$Q\+\_\+t, S\+\_\+t$>$
+\item 
+\Hypertarget{classDFA_a1342472a091793b6ca269e613937b460}\label{classDFA_a1342472a091793b6ca269e613937b460} 
+using {\bfseries Pair\+QQ} = pair$<$Q\+\_\+t, Q\+\_\+t$>$
+\item 
+\Hypertarget{classDFA_a84420fbb52fcdcfbb23d74a645c4ba2d}\label{classDFA_a84420fbb52fcdcfbb23d74a645c4ba2d} 
+using {\bfseries Mapt} = unordered\+\_\+map$<$Pair\+QS, Q\+\_\+t$>$
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/DFA.\+h\item 
+src/DFA.\+cpp\end{DoxyCompactItemize}

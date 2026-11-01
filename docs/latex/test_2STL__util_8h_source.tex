@@ -1,0 +1,716 @@
+\doxysection{STL\+\_\+util.\+h}
+\hypertarget{test_2STL__util_8h_source}{}\label{test_2STL__util_8h_source}\index{include/test/STL\_util.h@{include/test/STL\_util.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ STL\_UTIL\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ STL\_UTIL\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{//=============================================================================}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ Prototypes}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ *\ std::string\ to\_string(T)\ where\ T\ =\ int,\ double,\ char,\ bool,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ const\ std::string\ \&}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ const\ std::pair<\ X,\ Y\ >\ \&}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ const\ std::vector<\ X\ >\ \&}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ const\ std::list<\ X\ >\ \&\ ...\ TODO}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ const\ std::unordered\_map<\ X,\ Y\ >\ \&}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ const\ std::unordered\_set<\ X\ >\ \&}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ *\ std::hash<\ T\ >\ where\ T\ =\ int,\ double,\ char,\ bool,}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ const\ std::string\ \&}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ const\ std::pair<\ X,\ Y\ >\ \&}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ const\ std::vector<\ X\ >\ \&}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ const\ std::list<\ X\ >\ \&\ ...\ TODO}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ const\ std::unordered\_map<\ X,\ Y\ >\ \&}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ const\ std::unordered\_set<\ X\ >\ \&}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ *\ set\ membership}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ If\ C\ is\ a\ container\ and\ e\ is\ an\ element,\ use\ one\ of\ the\ following\ for}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ membership\ check:}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ has<\ T,\ S\ >\ (C,\ e)}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ is\_member<\ S,\ T\ >(e,\ C)\ where\ T\ is\ a\ container\ of\ S-\/values\ and}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ T::find(const\ S\ \&)\ is\ defined}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ *\ set\ union}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ If\ X,\ Y,\ Z\ are\ containers\ of\ type\ std::set<\ T\ >,\ std::unordered\_set<\ T\ >}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ X\ |=\ Y\ //\ X\ =\ X\ union\ with\ Y}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ Z\ =\ X\ |\ Y\ //\ Z\ =\ X\ union\ with\ Y}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ (See\ also\ std::set\_union)}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ *\ set\ intersection}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ If\ X,\ Y,\ Z\ are\ containers\ of\ type\ std::set<\ T\ >,\ std::unordered\_set<\ T\ >}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ X\ \&=\ Y}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ Z\ =\ X\ \&\ Y}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ (See\ also\ C++\ std::set\_intersection)}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ *\ set\ difference}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ If\ X,\ Y,\ Z\ are\ containers\ of\ type\ std::set<\ T\ >,\ std::unordered\_set<\ T\ >}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ X\ -\/=\ Y}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ Z\ =\ X\ -\/\ Y}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ (See\ also\ C++\ std::set\_difference)}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//\ *\ cross\ product}}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ If\ X,\ Y,\ Z\ are\ containers\ of\ type\ std::set<\ T\ >,\ std::unordered\_set<\ T\ >}}
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ Z\ =\ crossprod(X,\ Y)}}
+\DoxyCodeLine{00061\ \textcolor{comment}{//}}
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ *\ powerset}}
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ If\ X,\ Z\ are\ containers\ of\ type\ of\ std::set<\ T\ >,\ std::unordered\_set<\ T\ >}}
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ Z\ =\ powset(X)}}
+\DoxyCodeLine{00065\ \textcolor{comment}{//}}
+\DoxyCodeLine{00066\ \textcolor{comment}{//=============================================================================}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ Prototypes\ of\ std::to\_string\ extensions}}
+\DoxyCodeLine{00070\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00071\ \textcolor{keyword}{namespace\ }std}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ std::string\ to\_string(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00074\ \ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::string\ \&\ x);}
+\DoxyCodeLine{00076\ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ S,\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00078\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::pair<\ S,\ T\ >\ \&\ x);}
+\DoxyCodeLine{00079\ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00081\ \ \ \ \ std::string\ container\_to\_string\_(\textcolor{keyword}{const}\ T\ \&\ x,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\ begin,}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\ end);}
+\DoxyCodeLine{00084\ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00086\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::vector<\ T\ >\ \&\ x);}
+\DoxyCodeLine{00087\ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00089\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::list<\ T\ >\ \&\ x);}
+\DoxyCodeLine{00090\ \ \ \ \ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00092\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::unordered\_set<\ T\ >\ \&\ x);}
+\DoxyCodeLine{00093\ \ \ \ \ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ S,\ \textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ LESS\ >}
+\DoxyCodeLine{00095\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::unordered\_map<\ S,\ T\ >\ \&\ x,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ LESS\ \&\ less);}
+\DoxyCodeLine{00097\ \ \ \ \ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ S,\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00099\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::unordered\_map<\ S,\ T\ >\ \&\ x);}
+\DoxyCodeLine{00100\ \ \ \ \ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ LESS\ >}
+\DoxyCodeLine{00102\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::unordered\_set<\ T\ >\ \&\ x,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ LESS\ \&\ less);}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ LESS\ >}
+\DoxyCodeLine{00105\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::unordered\_set<\ T\ >\ \&\ x);}
+\DoxyCodeLine{00106\ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00108\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::set<\ T\ >\ \&\ x);}
+\DoxyCodeLine{00109\ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ LESS\ >}
+\DoxyCodeLine{00111\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ std::set<\ T\ >\ \&\ x,\ \textcolor{keyword}{const}\ LESS\ \&\ less);}
+\DoxyCodeLine{00112\ \};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00115\ \textcolor{comment}{//\ Prototypes\ of\ std::hash\ extensions}}
+\DoxyCodeLine{00116\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00117\ \textcolor{keyword}{namespace\ }std}
+\DoxyCodeLine{00118\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{template}\ <\ \textcolor{keyword}{typename}\ S,\ \textcolor{keyword}{typename}\ T\ >}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{struct\ }hash<\ std::pair<\ S,\ T\ >\ >;}
+\DoxyCodeLine{00121\ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00123\ \ \ \ \ struct\ hash<\ std::vector<\ T\ >\ >;}
+\DoxyCodeLine{00124\ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00126\ \ \ \ \ struct\ hash<\ std::list<\ T\ >\ >;}
+\DoxyCodeLine{00127\ \ \ \ \ }
+\DoxyCodeLine{00128\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00129\ \ \ \ \ struct\ hash<\ std::unordered\_set<\ T\ >\ >;}
+\DoxyCodeLine{00130\ \ \ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ template\ <\ typename\ S,\ typename\ T,\ typename\ H\ >}
+\DoxyCodeLine{00132\ \ \ \ \ struct\ hash<\ std::unordered\_map<\ S,\ T,\ H\ >\ >;}
+\DoxyCodeLine{00133\ \ \ \ \ }
+\DoxyCodeLine{00134\ \ \ \ \ template\ <\ typename\ S\ >}
+\DoxyCodeLine{00135\ \ \ \ \ struct\ hash<\ std::set<\ S\ >\ >;}
+\DoxyCodeLine{00136\ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00139\ \textcolor{comment}{//\ Prototypes\ of\ operator<<}}
+\DoxyCodeLine{00140\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00141\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00142\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::pair<\ T0,\ T1\ >\ \&\ x);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00145\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::vector<\ T\ >\ \&\ s);}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00148\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::list<\ T\ >\ \&\ s);}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00151\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ s);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00155\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_map<\ S,\ T\ >\ \&\ s);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00159\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::set<\ T\ >\ \&\ s);}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00162\ \textcolor{comment}{//\ Prototypes\ of\ membership}}
+\DoxyCodeLine{00163\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00164\ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00165\ bool\ is\_member(const\ S\ \&\ e,\ const\ T\ \&\ X);}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00168\ bool\ has(const\ S\ \&\ X,\ const\ T\ \&\ e);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00171\ \textcolor{comment}{//\ Prototypes\ of\ set\ union}}
+\DoxyCodeLine{00172\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00173\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00174\ void\ set\_union(T\ \&\ x,\ const\ T\ \&\ y);}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00177\ std::set<\ T\ >\ \&\ operator|=(std::set<\ T\ >\ \&\ x,\ const\ std::set<\ T\ >\ \&\ y);}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00180\ std::set<\ T\ >\ operator|(const\ std::set<\ T\ >\ \&\ x,\ const\ std::set<\ T\ >\ \&\ y);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00183\ std::unordered\_set<\ T\ >\ \&\ operator|=(std::unordered\_set<\ T\ >\ \&\ x,}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ y);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00187\ std::unordered\_set<\ T\ >\ operator|(const\ std::unordered\_set<\ T\ >\ \&\ x,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ y);}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00191\ \textcolor{comment}{//\ Prototypes\ of\ set\ intersection}}
+\DoxyCodeLine{00192\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00193\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00194\ void\ set\_intersection\_(T\ \&\ xs,\ const\ T\ \&\ ys);}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00197\ std::set<\ T\ >\ \&\ operator\&=(std::set<\ T\ >\ \&\ xs,\ const\ std::set<\ T\ >\ \&\ ys);}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00200\ std::set<\ T\ >\ operator\&(std::set<\ T\ >\ \&\ x,\ const\ std::set<\ T\ >\ \&\ y);}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00203\ std::unordered\_set<\ T\ >\ operator\&=(std::unordered\_set<\ T\ >\ \&\ xs,}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ ys);}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00207\ std::unordered\_set<\ T\ >\ operator\&(std::unordered\_set<\ T\ >\ \&\ x,}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ y);}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00211\ \textcolor{comment}{//\ Prototypes\ for\ set\ difference}}
+\DoxyCodeLine{00212\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00213\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00214\ void\ set\_difference\_(T0\ \&\ X,\ const\ T1\ \&\ Y);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00217\ const\ std::unordered\_set<\ T\ >\ \&\ operator-\/=(std::unordered\_set<\ T\ >\ \&\ X,}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ Y);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00221\ std::unordered\_set<\ T\ >\ operator-\/(const\ std::unordered\_set<\ T\ >\ \&\ X,}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ Y);}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00225\ const\ std::set<\ T\ >\ \&\ operator-\/=(std::set<\ T\ >\ \&\ X,\ const\ std::set<\ T\ >\ \&\ Y);}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00228\ std::set<\ T\ >\ operator-\/(const\ std::set<\ T\ >\ \&\ X,\ const\ std::set<\ T\ >\ \&\ Y);}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00231\ \textcolor{comment}{//\ Prototypes\ of\ cross\ product}}
+\DoxyCodeLine{00232\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00233\ template\ <\ typename\ T0,\ typename\ T1,\ typename\ T2\ >}
+\DoxyCodeLine{00234\ void\ crossprod\_(T0\ \&\ ret,\ const\ T1\ \&\ xs,\ const\ T2\ \&\ ys);}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00237\ std::set<\ std::pair<\ T0,\ T1\ >\ >\ crossprod(const\ std::set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::set<\ T1\ >\ \&\ ys);}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00241\ std::unordered\_set<\ std::pair<\ T0,\ T1\ >\ >\ crossprod(}
+\DoxyCodeLine{00242\ \ \ \ \ const\ std::unordered\_set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00243\ \ \ \ \ const\ std::unordered\_set<\ T1\ >\ \&\ ys);}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00246\ std::set<\ std::pair<\ T0,\ T1\ >\ >\ operator*(const\ std::set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::set<\ T1\ >\ \&\ ys);}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00250\ std::set<\ std::pair<\ T0,\ T1\ >\ >\ operator*(const\ std::unordered\_set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T1\ >\ \&\ ys);}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00254\ \textcolor{comment}{//\ Prototypes\ of\ powerset}}
+\DoxyCodeLine{00255\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00256\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00257\ T0\ powset\_(const\ T1\ \&\ X);}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00260\ std::set<\ std::set<\ T\ >\ >\ powset(const\ std::set<\ T\ >\ \&\ X);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00263\ std::unordered\_set<\ std::unordered\_set<\ T\ >\ >\ powset(}
+\DoxyCodeLine{00264\ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ X);}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \textcolor{comment}{//=============================================================================}}
+\DoxyCodeLine{00267\ \textcolor{comment}{//\ Implementations}}
+\DoxyCodeLine{00268\ \textcolor{comment}{//=============================================================================}}
+\DoxyCodeLine{00269\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00270\ \textcolor{comment}{//\ Implementation\ of\ std::to\_string\ extensions}}
+\DoxyCodeLine{00271\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00272\ namespace\ std}
+\DoxyCodeLine{00273\ \{}
+\DoxyCodeLine{00274\ \ \ \ \ inline}
+\DoxyCodeLine{00275\ \ \ \ \ std::string\ to\_string(char\ c)}
+\DoxyCodeLine{00276\ \ \ \ \ \{}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ return\ \{c\};}
+\DoxyCodeLine{00278\ \ \ \ \ \}}
+\DoxyCodeLine{00279\ \ \ \ \ }
+\DoxyCodeLine{00280\ \ \ \ \ inline}
+\DoxyCodeLine{00281\ \ \ \ \ std::string\ to\_string(const\ std::string\ \&\ x)}
+\DoxyCodeLine{00282\ \ \ \ \ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ return\ x;}
+\DoxyCodeLine{00284\ \ \ \ \ \}}
+\DoxyCodeLine{00285\ \ \ \ \ }
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{comment}{//\ template\ <typename\ T>}}
+\DoxyCodeLine{00287\ \ \ \ \ \textcolor{comment}{//\ std::string\ to\_string(const\ T\ \&\ x)}}
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00291\ \ \ \ \ }
+\DoxyCodeLine{00292\ \ \ \ \ template\ <typename\ S,\ typename\ T>}
+\DoxyCodeLine{00293\ \ \ \ \ std::string\ to\_string(const\ std::pair<\ S,\ T\ >\ \&\ x)}
+\DoxyCodeLine{00294\ \ \ \ \ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ return\ std::string("{}("{})\ +}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ to\_string(x.first)\ +\ "{},\ "{}\ +\ to\_string(x.second)\ +}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ "{})"{};}
+\DoxyCodeLine{00298\ \ \ \ \ \}}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00301\ \ \ \ \ std::string\ container\_to\_string\_(const\ T\ \&\ x,}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::string\ \&\ begin,}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::string\ \&\ end)}
+\DoxyCodeLine{00304\ \ \ \ \ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ std::string\ ret\ =\ begin;}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ std::string\ delim\ =\ "{}"{};}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ for\ (auto\ p:\ x)}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ ret\ +=\ delim;}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ ret\ +=\ to\_string(p);}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ delim\ =\ "{},\ "{};}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ ret\ +=\ end;}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ return\ ret;}
+\DoxyCodeLine{00316\ \ \ \ \ \}}
+\DoxyCodeLine{00317\ \ \ \ \ }
+\DoxyCodeLine{00318\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00319\ \ \ \ \ std::string\ to\_string(const\ std::vector<\ T\ >\ \&\ x)}
+\DoxyCodeLine{00320\ \ \ \ \ \{}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ return\ container\_to\_string\_(x,\ "{}["{},\ "{}]"{});}
+\DoxyCodeLine{00322\ \ \ \ \ \}}
+\DoxyCodeLine{00323\ \ \ \ \ }
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{comment}{//\ template\ <\ typename\ S,\ typename\ T,\ typename\ LESS\ >}}
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{comment}{//\ std::string\ to\_string(const\ std::unordered\_map<\ S,\ T\ >\ \&\ x,}}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ LESS\ \&\ less)}}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00330\ \ \ \ \ }
+\DoxyCodeLine{00331\ \ \ \ \ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00332\ \ \ \ \ std::string\ to\_string(const\ std::unordered\_map<\ S,\ T\ >\ \&\ x)}
+\DoxyCodeLine{00333\ \ \ \ \ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ return\ container\_to\_string\_(x,\ "{}\{"{},\ "{}\}"{});}
+\DoxyCodeLine{00335\ \ \ \ \ \}}
+\DoxyCodeLine{00336\ \ \ \ \ }
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{comment}{//\ template\ <\ typename\ T,\ typename\ LESS\ >}}
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{comment}{//\ std::string\ to\_string(const\ std::unordered\_set<\ T\ >\ \&\ x,}}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ LESS\ \&\ less)}}
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ container\_to\_string\_(x,\ "{}\{"{},\ "{}\}"{});}}
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00345\ \ \ \ \ std::string\ to\_string(const\ std::unordered\_set<\ T\ >\ \&\ x)}
+\DoxyCodeLine{00346\ \ \ \ \ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ return\ container\_to\_string\_(x,\ "{}\{"{},\ "{}\}"{});}
+\DoxyCodeLine{00348\ \ \ \ \ \}}
+\DoxyCodeLine{00349\ \ \ \ \ }
+\DoxyCodeLine{00350\ \ \ \ \ template\ <typename\ T\ >}
+\DoxyCodeLine{00351\ \ \ \ \ std::string\ to\_string(const\ std::set<\ T\ >\ \&\ x)}
+\DoxyCodeLine{00352\ \ \ \ \ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ return\ container\_to\_string\_(x,\ "{}\{"{},\ "{}\}"{});}
+\DoxyCodeLine{00354\ \ \ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \ \ }
+\DoxyCodeLine{00356\ \ \ \ \ template\ <\ typename\ T,\ typename\ LESS\ >}
+\DoxyCodeLine{00357\ \ \ \ \ std::string\ to\_string(const\ std::set<\ T\ >\ \&\ x,\ const\ LESS\ \&\ less)}
+\DoxyCodeLine{00358\ \ \ \ \ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ return\ container\_to\_string\_(x,\ "{}\{"{},\ "{}\}"{});}
+\DoxyCodeLine{00360\ \ \ \ \ \}}
+\DoxyCodeLine{00361\ \}}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00364\ \textcolor{comment}{//\ Implementations\ of\ extensions\ to\ std::hash}}
+\DoxyCodeLine{00365\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00366\ namespace\ std}
+\DoxyCodeLine{00367\ \{}
+\DoxyCodeLine{00368\ \ \ \ \ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00369\ \ \ \ \ struct\ hash<\ std::pair<\ S,\ T\ >\ >}
+\DoxyCodeLine{00370\ \ \ \ \ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ size\_t\ operator()(const\ std::pair<\ S,\ T\ >\ \&\ x)\ const}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ std::hash<\ std::string\ >\ hasher;}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ return\ hasher(std::to\_string(x));}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00376\ \ \ \ \ \};}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00378\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00379\ \ \ \ \ struct\ hash<\ std::vector<\ T\ >\ >}
+\DoxyCodeLine{00380\ \ \ \ \ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ size\_t\ operator()(const\ std::vector<\ T\ >\ \&\ x)\ const}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ std::hash<\ std::string\ >\ hasher;}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ return\ hasher(std::to\_string(x));}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00386\ \ \ \ \ \};}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00389\ \ \ \ \ struct\ hash<\ std::list<\ T\ >\ >}
+\DoxyCodeLine{00390\ \ \ \ \ \{}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ size\_t\ operator()(const\ std::list<\ T\ >\ \&\ x)\ const}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ std::hash<\ std::string\ >\ hasher;}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ return\ hasher(std::to\_string(x));}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00396\ \ \ \ \ \};}
+\DoxyCodeLine{00397\ }
+\DoxyCodeLine{00398\ \ \ \ \ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00399\ \ \ \ \ struct\ hash<\ std::unordered\_set<\ T\ >\ >}
+\DoxyCodeLine{00400\ \ \ \ \ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ size\_t\ operator()(const\ std::unordered\_set<\ T\ >\ \&\ x)\ const}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ std::hash<\ std::string\ >\ hasher;}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ return\ hasher(std::to\_string(x));}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00406\ \ \ \ \ \};}
+\DoxyCodeLine{00407\ }
+\DoxyCodeLine{00408\ \ \ \ \ template\ <\ typename\ S,\ typename\ T,\ typename\ H\ >}
+\DoxyCodeLine{00409\ \ \ \ \ struct\ hash<\ std::unordered\_map<\ S,\ T,\ H\ >\ >}
+\DoxyCodeLine{00410\ \ \ \ \ \{}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ size\_t\ operator()(const\ std::unordered\_map<\ S,\ T,\ H\ >\ \&\ x)\ const}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ std::hash<\ std::string\ >\ hasher;}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ return\ hasher(std::to\_string(x));}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00416\ \ \ \ \ \};}
+\DoxyCodeLine{00417\ \ \ \ \ }
+\DoxyCodeLine{00418\ \ \ \ \ template\ <\ typename\ S\ >}
+\DoxyCodeLine{00419\ \ \ \ \ struct\ hash<\ std::set<\ S\ >\ >}
+\DoxyCodeLine{00420\ \ \ \ \ \{}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ size\_t\ operator()(const\ std::set<\ S\ >\ \&\ x)\ const}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ std::hash<\ std::string\ >\ hasher;}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ return\ hasher(std::to\_string(x));}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00426\ \ \ \ \ \};}
+\DoxyCodeLine{00427\ \}}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00430\ \textcolor{comment}{//\ Implementation\ of\ memberships}}
+\DoxyCodeLine{00431\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00432\ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00433\ bool\ is\_member(const\ S\ \&\ e,}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ T\ \&\ X)}
+\DoxyCodeLine{00435\ \{}
+\DoxyCodeLine{00436\ \ \ \ \ return\ X.find(e)\ !=\ X.end();}
+\DoxyCodeLine{00437\ \}}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00439\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00440\ \textcolor{comment}{//\ Implementations\ of\ set\ difference}}
+\DoxyCodeLine{00441\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00442\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00443\ void\ set\_difference\_(T0\ \&\ X,\ const\ T1\ \&\ Y)}
+\DoxyCodeLine{00444\ \{}
+\DoxyCodeLine{00445\ \ \ \ \ for\ (auto\ p:\ Y)}
+\DoxyCodeLine{00446\ \ \ \ \ \{}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ if\ (is\_member(p,\ X))}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ X.erase(p);}
+\DoxyCodeLine{00449\ \ \ \ \ \}}
+\DoxyCodeLine{00450\ \}}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00453\ const\ std::unordered\_set<\ T\ >\ \&\ operator-\/=(std::unordered\_set<\ T\ >\ \&\ X,}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ Y)}
+\DoxyCodeLine{00455\ \{}
+\DoxyCodeLine{00456\ \ \ \ \ set\_difference\_(X,\ Y);}
+\DoxyCodeLine{00457\ \ \ \ \ return\ X;}
+\DoxyCodeLine{00458\ \}}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00460\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00461\ std::unordered\_set<\ T\ >\ operator-\/(const\ std::unordered\_set<\ T\ >\ \&\ X,}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ Y)}
+\DoxyCodeLine{00463\ \{}
+\DoxyCodeLine{00464\ \ \ \ \ unordered\_set<T>\ diff\ =\ X;}
+\DoxyCodeLine{00465\ \ \ \ \ diff\ -\/=\ Y;}
+\DoxyCodeLine{00466\ \ \ \ \ return\ diff;}
+\DoxyCodeLine{00467\ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00470\ const\ std::set<\ T\ >\ \&\ operator-\/=(std::set<\ T\ >\ \&\ X,\ const\ std::set<\ T\ >\ \&\ Y)}
+\DoxyCodeLine{00471\ \{}
+\DoxyCodeLine{00472\ \ \ \ \ set\_difference\_(X,\ Y);}
+\DoxyCodeLine{00473\ \ \ \ \ return\ X;}
+\DoxyCodeLine{00474\ \}}
+\DoxyCodeLine{00475\ }
+\DoxyCodeLine{00476\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00477\ std::set<\ T\ >\ operator-\/(const\ std::set<\ T\ >\ \&\ X,\ const\ std::set<\ T\ >\ \&\ Y)}
+\DoxyCodeLine{00478\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ std::set<T>\ diff\ =\ X;}
+\DoxyCodeLine{00480\ \ \ \ \ diff\ -\/=\ Y;}
+\DoxyCodeLine{00481\ \ \ \ \ return\ diff;}
+\DoxyCodeLine{00482\ \}}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00485\ \textcolor{comment}{//\ Implementations\ of\ set\ union}}
+\DoxyCodeLine{00486\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00487\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00488\ void\ set\_union(T\ \&\ x,\ const\ T\ \&\ y)}
+\DoxyCodeLine{00489\ \{}
+\DoxyCodeLine{00490\ \ \ \ \ for\ (auto\ p:\ y)}
+\DoxyCodeLine{00491\ \ \ \ \ \{}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ x.insert(p);}
+\DoxyCodeLine{00493\ \ \ \ \ \}}
+\DoxyCodeLine{00494\ \}}
+\DoxyCodeLine{00495\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00496\ std::set<\ T\ >\ \&\ operator|=(std::set<\ T\ >\ \&\ x,\ const\ std::set<\ T\ >\ \&\ y)}
+\DoxyCodeLine{00497\ \{}
+\DoxyCodeLine{00498\ \ \ \ \ set\_union(x,\ y);}
+\DoxyCodeLine{00499\ \ \ \ \ return\ x;}
+\DoxyCodeLine{00500\ \}}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00503\ std::set<\ T\ >\ operator|(const\ std::set<\ T\ >\ \&\ x,\ const\ std::set<\ T\ >\ \&\ y)}
+\DoxyCodeLine{00504\ \{}
+\DoxyCodeLine{00505\ \ \ \ \ std::set<T>\ union\_\ =\ x;}
+\DoxyCodeLine{00506\ \ \ \ \ union\_\ |=\ y;}
+\DoxyCodeLine{00507\ \ \ \ \ return\ union\_;}
+\DoxyCodeLine{00508\ \}}
+\DoxyCodeLine{00509\ }
+\DoxyCodeLine{00510\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00511\ std::unordered\_set<\ T\ >\ \&\ operator|=(std::unordered\_set<\ T\ >\ \&\ x,}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ y)}
+\DoxyCodeLine{00513\ \{}
+\DoxyCodeLine{00514\ \ \ \ \ set\_union(x,\ y);}
+\DoxyCodeLine{00515\ \ \ \ \ return\ x;}
+\DoxyCodeLine{00516\ \}}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00519\ std::unordered\_set<\ T\ >\ operator|(const\ std::unordered\_set<\ T\ >\ \&\ x,}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ y)}
+\DoxyCodeLine{00521\ \{}
+\DoxyCodeLine{00522\ \ \ \ \ std::set<T>\ union\_\ =\ x;}
+\DoxyCodeLine{00523\ \ \ \ \ union\_\ |=\ y;}
+\DoxyCodeLine{00524\ \ \ \ \ return\ union\_;}
+\DoxyCodeLine{00525\ \}}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00528\ \textcolor{comment}{//\ Implementations\ of\ set\ intersection}}
+\DoxyCodeLine{00529\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00530\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00531\ void\ set\_intersection\_(T\ \&\ xs,\ const\ T\ \&\ ys)}
+\DoxyCodeLine{00532\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ T\ x\ =\ xs;}
+\DoxyCodeLine{00534\ \ \ \ \ xs.clear();}
+\DoxyCodeLine{00535\ \ \ \ \ for\ (auto\ p:\ x)}
+\DoxyCodeLine{00536\ \ \ \ \ \{}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ if\ (is\_member(p,\ ys))}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ xs.insert(p);}
+\DoxyCodeLine{00539\ \ \ \ \ \}}
+\DoxyCodeLine{00540\ \}}
+\DoxyCodeLine{00541\ }
+\DoxyCodeLine{00542\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00543\ std::set<\ T\ >\ \&\ operator\&=(std::set<\ T\ >\ \&\ xs,\ const\ std::set<\ T\ >\ \&\ ys)}
+\DoxyCodeLine{00544\ \{}
+\DoxyCodeLine{00545\ \ \ \ \ set\_intersection\_(xs,\ ys);}
+\DoxyCodeLine{00546\ \ \ \ \ return\ xs;}
+\DoxyCodeLine{00547\ \}}
+\DoxyCodeLine{00548\ }
+\DoxyCodeLine{00549\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00550\ std::set<\ T\ >\ operator\&(std::set<\ T\ >\ \&\ xs,\ const\ std::set<\ T\ >\ \&\ ys)}
+\DoxyCodeLine{00551\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ std::set<T>\ intersect\_\ =\ xs;}
+\DoxyCodeLine{00553\ \ \ \ \ intersect\_\ \&=\ ys;}
+\DoxyCodeLine{00554\ \ \ \ \ return\ intersect\_;}
+\DoxyCodeLine{00555\ \}}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00558\ std::unordered\_set<\ T\ >\ operator\&=(std::unordered\_set<\ T\ >\ \&\ xs,}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ ys)}
+\DoxyCodeLine{00560\ \{}
+\DoxyCodeLine{00561\ \ \ \ \ set\_intersection\_(xs,\ ys);}
+\DoxyCodeLine{00562\ \ \ \ \ return\ xs;}
+\DoxyCodeLine{00563\ \}}
+\DoxyCodeLine{00564\ }
+\DoxyCodeLine{00565\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00566\ std::unordered\_set<\ T\ >\ operator\&(std::unordered\_set<\ T\ >\ \&\ xs,}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ ys)}
+\DoxyCodeLine{00568\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ std::unordered\_set<T>\ intersect\_\ =\ xs;}
+\DoxyCodeLine{00570\ \ \ \ \ intersect\_\ \&=\ ys;}
+\DoxyCodeLine{00571\ \ \ \ \ return\ intersect\_;}
+\DoxyCodeLine{00572\ \}}
+\DoxyCodeLine{00573\ }
+\DoxyCodeLine{00574\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00575\ \textcolor{comment}{//\ Implementations\ of\ cross\ product}}
+\DoxyCodeLine{00576\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00577\ template\ <\ typename\ T0,\ typename\ T1,\ typename\ T2\ >}
+\DoxyCodeLine{00578\ void\ crossprod\_(T0\ \&\ ret,\ const\ T1\ \&\ xs,\ const\ T2\ \&\ ys)}
+\DoxyCodeLine{00579\ \{}
+\DoxyCodeLine{00580\ \ \ \ \ for\ (auto\ p:\ xs)}
+\DoxyCodeLine{00581\ \ \ \ \ \{}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ for\ (auto\ q:\ ys)}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ ret.insert(std::make\_pair(p,\ q));}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00586\ \ \ \ \ \}}
+\DoxyCodeLine{00587\ \}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00590\ std::set<\ std::pair<\ T0,\ T1\ >\ >\ crossprod(const\ std::set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::set<\ T1\ >\ \&\ ys)}
+\DoxyCodeLine{00592\ \{}
+\DoxyCodeLine{00593\ \ \ \ \ std::set<\ std::pair<\ T0,\ T1\ >\ >\ cP;}
+\DoxyCodeLine{00594\ \ \ \ \ crossprod\_(cP,\ xs,\ ys);}
+\DoxyCodeLine{00595\ }
+\DoxyCodeLine{00596\ \ \ \ \ return\ cP;}
+\DoxyCodeLine{00597\ \}}
+\DoxyCodeLine{00598\ }
+\DoxyCodeLine{00599\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00600\ std::unordered\_set<\ std::pair<\ T0,\ T1\ >\ >\ crossprod(}
+\DoxyCodeLine{00601\ \ \ \ \ const\ std::unordered\_set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00602\ \ \ \ \ const\ std::unordered\_set<\ T1\ >\ \&\ ys)}
+\DoxyCodeLine{00603\ \{}
+\DoxyCodeLine{00604\ \ \ \ \ std::unordered\_set<\ std::pair<\ T0,\ T1\ >\ >\ cP;}
+\DoxyCodeLine{00605\ \ \ \ \ crossprod\_(cP,\ xs,\ ys);}
+\DoxyCodeLine{00606\ }
+\DoxyCodeLine{00607\ \ \ \ \ return\ cP;}
+\DoxyCodeLine{00608\ \}}
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00611\ std::set<\ std::pair<\ T0,\ T1\ >\ >\ operator*(const\ std::set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::set<\ T1\ >\ \&\ ys)}
+\DoxyCodeLine{00613\ \{}
+\DoxyCodeLine{00614\ \ \ \ \ return\ crossprod(xs,\ ys);}
+\DoxyCodeLine{00615\ \}}
+\DoxyCodeLine{00616\ }
+\DoxyCodeLine{00617\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00618\ std::set<\ std::pair<\ T0,\ T1\ >\ >\ operator*(const\ std::unordered\_set<\ T0\ >\ \&\ xs,}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T1\ >\ \&\ ys)}
+\DoxyCodeLine{00620\ \{}
+\DoxyCodeLine{00621\ \ \ \ \ return\ crossprod(xs,\ ys);}
+\DoxyCodeLine{00622\ \}}
+\DoxyCodeLine{00623\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00624\ \textcolor{comment}{//\ Implementations\ of\ powerset}}
+\DoxyCodeLine{00625\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00626\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00627\ T0\ powset\_(const\ T1\ \&\ X)}
+\DoxyCodeLine{00628\ \{}
+\DoxyCodeLine{00629\ \ \ \ \ T0\ ret;}
+\DoxyCodeLine{00630\ \ \ \ \ std::vector<typename\ T1::value\_type>\ elements(X.begin(),\ X.end());}
+\DoxyCodeLine{00631\ }
+\DoxyCodeLine{00632\ \ \ \ \ int\ n\ =\ elements.size();}
+\DoxyCodeLine{00633\ \ \ \ \ }
+\DoxyCodeLine{00634\ \ \ \ \ for\ (int\ mask\ =\ 0;\ mask\ <\ (1\ <<\ n);\ ++mask)}
+\DoxyCodeLine{00635\ \ \ \ \ \{}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ T1\ subset;}
+\DoxyCodeLine{00637\ }
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ for\ (int\ i\ =\ 0;\ i\ <\ n;\ ++i)}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (mask\ \&\ (1\ <<\ i))}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ subset.insert(elements[i]);}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ ret.insert(subset);}
+\DoxyCodeLine{00645\ \ \ \ \ \}}
+\DoxyCodeLine{00646\ }
+\DoxyCodeLine{00647\ \ \ \ \ return\ ret;}
+\DoxyCodeLine{00648\ \}}
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00650\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00651\ std::set<\ std::set<\ T\ >\ >\ powset(const\ std::set<\ T\ >\ \&\ X)}
+\DoxyCodeLine{00652\ \{}
+\DoxyCodeLine{00653\ \ \ \ \ return\ powset\_(X);}
+\DoxyCodeLine{00654\ \}}
+\DoxyCodeLine{00655\ }
+\DoxyCodeLine{00656\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00657\ std::unordered\_set<\ std::unordered\_set<\ T\ >\ >\ powset(}
+\DoxyCodeLine{00658\ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ X)}
+\DoxyCodeLine{00659\ \{}
+\DoxyCodeLine{00660\ \ \ \ \ return\ powset\_(X);}
+\DoxyCodeLine{00661\ \}}
+\DoxyCodeLine{00662\ }
+\DoxyCodeLine{00663\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00664\ \textcolor{comment}{//\ Implementations\ of\ operator<<}}
+\DoxyCodeLine{00665\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00666\ template\ <\ typename\ T0,\ typename\ T1\ >}
+\DoxyCodeLine{00667\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::pair<\ T0,\ T1\ >\ \&\ x)}
+\DoxyCodeLine{00668\ \{}
+\DoxyCodeLine{00669\ \ \ \ \ cout\ <<\ std::to\_string(x);}
+\DoxyCodeLine{00670\ \ \ \ \ return\ cout;}
+\DoxyCodeLine{00671\ \}}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00674\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::vector<\ T\ >\ \&\ s)}
+\DoxyCodeLine{00675\ \{}
+\DoxyCodeLine{00676\ \ \ \ \ cout\ <<\ to\_string(s);}
+\DoxyCodeLine{00677\ \ \ \ \ return\ cout;}
+\DoxyCodeLine{00678\ \}}
+\DoxyCodeLine{00679\ }
+\DoxyCodeLine{00680\ \textcolor{comment}{//\ template\ <\ typename\ T\ >}}
+\DoxyCodeLine{00681\ \textcolor{comment}{//\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::list<\ T\ >\ \&\ s)}}
+\DoxyCodeLine{00682\ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00683\ \textcolor{comment}{//\ \ \ \ \ cout\ <<\ to\_string(s);}}
+\DoxyCodeLine{00684\ \textcolor{comment}{//\ \ \ \ \ return\ cout;}}
+\DoxyCodeLine{00685\ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00686\ }
+\DoxyCodeLine{00687\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00688\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_set<\ T\ >\ \&\ s)}
+\DoxyCodeLine{00690\ \{}
+\DoxyCodeLine{00691\ \ \ \ \ cout\ <<\ to\_string(s);}
+\DoxyCodeLine{00692\ \ \ \ \ return\ cout;}
+\DoxyCodeLine{00693\ \}}
+\DoxyCodeLine{00694\ }
+\DoxyCodeLine{00695\ template\ <\ typename\ S,\ typename\ T\ >}
+\DoxyCodeLine{00696\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ std::unordered\_map<\ S,\ T\ >\ \&\ s)}
+\DoxyCodeLine{00698\ \{}
+\DoxyCodeLine{00699\ \ \ \ \ cout\ <<\ to\_string(s);}
+\DoxyCodeLine{00700\ \ \ \ \ return\ cout;}
+\DoxyCodeLine{00701\ \}}
+\DoxyCodeLine{00702\ }
+\DoxyCodeLine{00703\ template\ <\ typename\ T\ >}
+\DoxyCodeLine{00704\ std::ostream\ \&\ operator<<(std::ostream\ \&\ cout,\ const\ std::set<\ T\ >\ \&\ s)}
+\DoxyCodeLine{00705\ \{}
+\DoxyCodeLine{00706\ \ \ \ \ cout\ <<\ to\_string(s);}
+\DoxyCodeLine{00707\ \ \ \ \ return\ cout;}
+\DoxyCodeLine{00708\ \}}
+\DoxyCodeLine{00709\ }
+\DoxyCodeLine{00710\ \#endif}
+
+\end{DoxyCode}

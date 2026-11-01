@@ -1,0 +1,162 @@
+\doxysection{Regex.\+h}
+\hypertarget{Regex_8h_source}{}\label{Regex_8h_source}\index{include/Regex.h@{include/Regex.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ REGEX\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ REGEX\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{NFA_8h}{NFA.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{typedef}\ unordered\_map<int,\ unordered\_set<int>>\ Mapi;}
+\DoxyCodeLine{00007\ \textcolor{keyword}{typedef}\ unordered\_map<pair<int,char>,\ unordered\_set<int>>\ Mapc;}
+\DoxyCodeLine{00008\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{classDFA}{DFA<unordered\_set<int>}},\ \textcolor{keywordtype}{char}>\ DFAic;}
+\DoxyCodeLine{00009\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{classDFA}{DFA<int,\ char>}}\ DFAi;}
+\DoxyCodeLine{00010\ \textcolor{keyword}{typedef}\ unordered\_set<int>\ Seti;}
+\DoxyCodeLine{00011\ \textcolor{keyword}{typedef}\ unordered\_set<\ Seti\ >\ SuperSeti;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }RegEx}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ RegEx(\textcolor{keywordtype}{char}\ c)}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ :\ N\_(\{c\},\ \{0,\ 1\},\ \{1\},\ 0,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ Mapc\{\ \{\ \{0,\ c\},\ \{1\}\ \}\ \},\ \ \ \textcolor{comment}{//\ 0\ -\/-\/c-\/-\/>\ 1}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ Mapi\{\}),\ regex\_()}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ N\_\ <<\ endl;}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ regex\_\ +=\ c;}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ RegEx(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&\ x)}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.size()\ ==\ 1)}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ *\textcolor{keyword}{this}\ =\ RegEx(x[0]);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ cout\ <<\ N\_\ <<\ endl;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ x.size();\ ++i)}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ *\textcolor{keyword}{this}\ \&=\ RegEx(x[i]);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ \ \ \ \ RegEx(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNFA}{NFA<int,\ char>}}\ \&\ N)}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ :\ N\_(N)}
+\DoxyCodeLine{00040\ \ \ \ \ \{\}}
+\DoxyCodeLine{00041\ \ \ \ \ RegEx(\textcolor{keyword}{const}\ RegEx\ \&\ r)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ :\ N\_(r.N\_)}
+\DoxyCodeLine{00043\ \ \ \ \ \{\}}
+\DoxyCodeLine{00044\ \ \ \ \ RegEx\ \&\ operator=(\textcolor{keyword}{const}\ RegEx\ \&\ r)}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ N\_\ =\ r.N\_;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ regex\_\ =\ r.regex\_;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ union}}
+\DoxyCodeLine{00052\ \ \ \ \ RegEx\ \&\ operator|=(\textcolor{keyword}{const}\ RegEx\ \&\ r)}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ N\_\ =\ N\_.union\_(r.N\_);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{const}\ RegEx\ operator|(\textcolor{keyword}{const}\ RegEx\ \&\ r)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00058\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ RegEx\ R(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ R\ |=\ r;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ R;}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ klene\ star\ and\ klene\ star\ -\/\ \{e\}}}
+\DoxyCodeLine{00064\ \ \ \ \ RegEx\ operator+()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00065\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNFA}{NFA<int,\ char>}}\ N\ =\ N\_.KleneStar();}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ N.F\_.erase(N\_.q0\_);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ RegEx(N);}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ RegEx\ operator*()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00072\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ RegEx(N\_.KleneStar());}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{comment}{//\ concatenation}}
+\DoxyCodeLine{00076\ \ \ \ \ RegEx\ \&\ operator\&=(\textcolor{keyword}{const}\ RegEx\ \&\ r)}
+\DoxyCodeLine{00077\ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ N\_\ =\ N\_.concatenate(r.N\_);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ regex\_\ +=\ r.regex\_;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ RegEx\ operator\&(\textcolor{keyword}{const}\ RegEx\ \&\ r)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00084\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ RegEx\ R(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ R\ \&=\ r;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ R;}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ DFAic\ powerset\_construction()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00091\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ Seti\ q0\ =\ N\_.epsilon\_closure(\{N\_.q0\_\});}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ cout\ <<\ i\ <<\ \textcolor{stringliteral}{"{}\ :\ "{}}\ <<\ q0\ <<\ endl;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ int\ x;}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cin\ >>\ x;}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ SuperSeti\ Q;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ SuperSeti\ F;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ unordered\_map<pair<Seti,\ char>,\ Seti>\ delta;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ stack<Seti>\ fringe;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ fringe.push(q0);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!fringe.empty())}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ Seti\ top\ =\ fringe.top();}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ fringe.pop();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ Q.insert(top);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ Seti\ intersect\ =\ top\ \&\ N\_.F\_;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ F.insert(intersect);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a:\ N\_.sigma\_)}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Seti\ next;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ q:\ top)}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ N\_.delta\_.find(\{q,\ a\});}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ N\_.delta\_.end())}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next\ |=\ it-\/>second;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next\ =\ N\_.epsilon\_closure(next);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ i\ <<\ \textcolor{stringliteral}{"{}\ :\ "{}}\ <<\ next\ <<\ endl;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ int\ x;}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cin\ >>\ x;}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ delta[\{top,\ a\}]\ =\ next;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_member(next,\ Q))}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fringe.push(next);}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ DFAic\ M(N\_.sigma\_,\ Q,\ F,\ q0,\ delta);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ M.minimizeDFA()\ <<\ endl;}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ M;}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ }
+\DoxyCodeLine{00143\ \ \ \ \ \mbox{\hyperlink{classNFA}{NFA<int,\ char>}}\ N\_;}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{string}\ regex\_;}
+\DoxyCodeLine{00145\ \ \ \ \ }
+\DoxyCodeLine{00146\ \};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ ostream\ \&\ operator<<(ostream\ \&\ cout,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classRegEx}{RegEx}}\ \&\ r)}
+\DoxyCodeLine{00150\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Regular\ expression:\ "{}}\ <<\ r.regex\_\ <<\ endl;}
+\DoxyCodeLine{00152\ \ \ \ \ cout\ <<\ r.N\_;}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordflow}{return}\ cout;}
+\DoxyCodeLine{00154\ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
