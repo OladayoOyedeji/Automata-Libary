@@ -31,27 +31,48 @@ class NFA
     using Mapt = unordered_map<PairQS, SetUq>;
     using SetUi = unordered_set<int>;
     using Mapi = unordered_map<PairS, SetUi>;
-    using Map = unordered_map<Q_t, Q_t>;
+    using Map = unordered_map<Q_t, SetUq>;
+    using MapUi = unordered_map<int, SetUi>;
 public:
     NFA(const SetUs & sigma, const SetUq & Q,
         const SetUq & F,     const Q_t   & q0,
         const Mapt  & delta, const Map   & epDt);
     NFA(const NFA & N);
+    NFA()
+        : q0_(0), Q_({0}), sigma_({}), F_({0})
+    {}
 
+    NFA operator=(const NFA & N)
+    {
+        sigma_ = N.sigma_;
+        Q_     = N.Q_;
+        F_     = N.F_;
+        q0_    = N.q0_;
+        delta_ = N.delta_;
+        epDt_  = N.epDt_;
+
+        return *this;
+    }
     bool operator()(const vector<S_t> & word, bool verbose=false);
     NFA<int, S_t> union_(const NFA & N) const;
     NFA<int, S_t> concatenate(const NFA & N) const;
     NFA<int, S_t> KleneStar() const;
     NFA<int, S_t> baseNFA(int start=0) const;
-    SetUq         epsilon_closure() const;
+    SetUq         epsilon_closure(const SetUq & S) const;
     void insert(const S_t & a)
     {
         int size = Q_.size();
+        if (size == 0)
+        {
+            q0_ = size;
+        }
+        Q_.insert(q0_);
+        
     }
     
     int size() const
     {
-        return q0_.size();
+        return Q_.size();
     }
     
     Q_t   q0_;
@@ -65,14 +86,14 @@ public:
 
 template <typename Q_t, typename S_t>
 NFA<Q_t, S_t>::NFA(const SetUs & sigma, const SetUq & Q,
-    const SetUq & F,     const Q_t   & q0,
-    const Mapt  & delta)
+                   const SetUq & F,     const Q_t   & q0,
+                   const Mapt  & delta, const Map   & epDt)
     : q0_(q0), Q_(Q), sigma_(sigma), delta_(delta), F_(F), epDt_(epDt)
 {}
 
 template <typename Q_t, typename S_t>
 NFA<Q_t, S_t>::NFA(const NFA & N)
-    : q0_(N.q0_), Q_(N.Q_), sigma_(N.sigma_), delta_(N.delta_), F_(N.F_), epDt_(epDt)
+    : q0_(N.q0_), Q_(N.Q_), sigma_(N.sigma_), delta_(N.delta_), F_(N.F_), epDt_(N.epDt_)
 {}
 
 template <typename Q_t, typename S_t>
@@ -132,8 +153,9 @@ NFA<int, S_t> NFA<Q_t, S_t>::union_(const NFA & N) const
 {
     NFA<int, S_t> N0 =   baseNFA(1);
     int size_ = size();
-    NFA<int, S_t> N1 = N.baseNFA(size_);
-    
+    NFA<int, S_t> N1 = N.baseNFA(size_ + 1);
+    cout << N0 << endl;
+    cout << N1 << endl;
     int q0 = 0;
     SetUi Q = N0.Q_ | N1.Q_;
     Q.insert(q0);
@@ -141,10 +163,16 @@ NFA<int, S_t> NFA<Q_t, S_t>::union_(const NFA & N) const
     SetUs sigma = N0.sigma_ | N1.sigma_;
     Mapi delta = N0.delta_;
     delta.merge(N1.delta_);
+
+    MapUi epDt = N0.epDt_;
+    epDt.merge(N1.epDt_);
+    
     SetUi F = N0.F_ | N1.F_;
 
-    cout << size_ << ' ' << N1.q0_ << endl;
-    cout << N1 << endl;
+    // cout << size_ << ' ' << N1.q0_ << endl;
+    // cout << N1 << endl;
+
+    epDt[q0] = {N0.q0_, N1.q0_};
     for (auto a: sigma)
     {
         // delta[{q0, a}] |= delta_[{  q0_, a}] | N.delta_[{N.q0_, a}];
@@ -157,12 +185,12 @@ NFA<int, S_t> NFA<Q_t, S_t>::union_(const NFA & N) const
         //cout << it->second << endl;
         if (it != N1.delta_.end())
         {
-            cout << delta[{q0, a}] << ' ' << it->second<< endl;
+            // cout << delta[{q0, a}] << ' ' << it->second<< endl;
             delta[{q0, a}] = delta[{q0, a}] | it->second;
         }
     }
 
-    return NFA<int, S_t>(sigma, Q, F, q0, delta);
+    return NFA<int, S_t>(sigma, Q, F, q0, delta, epDt);
 }
 
 template <typename Q_t, typename S_t>
@@ -170,16 +198,23 @@ NFA<int, S_t> NFA<Q_t, S_t>::concatenate(const NFA & N) const
 {
     NFA<int, S_t> N0 =   baseNFA(0);
     NFA<int, S_t> N1 = N.baseNFA(size());
+
+    cout << "N0: " << N0 << endl;
+    cout << "N1: " << N1 << endl;
     
-    int q0 = 0;
     SetUi Q = N0.Q_ | N1.Q_;
     
-    SetUs sigma = sigma_;
+    SetUs sigma = N0.sigma_ | N1.sigma_;
+    // cout << sigma << endl;
     Mapi delta = N0.delta_;
     delta.merge(N1.delta_);
+    
+    MapUi epDt = N0.epDt_;
+    epDt.merge(N1.epDt_);
+    
     SetUi F = N1.F_;
 
-    for (auto q: N1.F_)
+    for (auto q: N0.F_)
     {
         for (auto a: sigma)
         {
@@ -191,25 +226,28 @@ NFA<int, S_t> NFA<Q_t, S_t>::concatenate(const NFA & N) const
                 delta[{q, a}] |= it->second;
             }
         }
+        epDt[q].insert(N1.q0_);
     }
 
-    return NFA<int, S_t>(sigma, Q, F, q0, delta);
+    return NFA<int, S_t>(sigma, Q, F, N0.q0_, delta, epDt);
 }
 
 template <typename Q_t, typename S_t>
 NFA<int, S_t> NFA<Q_t, S_t>::KleneStar() const
 {
     NFA<int, S_t> N =   baseNFA(1);
-    
+    cout << N << endl;
     int q0 = 0;
     SetUi Q = N.Q_;
     Q.insert(q0);
     
     SetUs sigma = N.sigma_;
     Mapi delta = N.delta_;
-    SetUi F = N.F_;
+
+    MapUi epDt = N.epDt_;
+    epDt[q0] = {N.q0_};
     
-    F.insert(q0);
+    SetUi F = N.F_;
 
     for (auto q: F)
     {
@@ -223,9 +261,12 @@ NFA<int, S_t> NFA<Q_t, S_t>::KleneStar() const
                 delta[{q, a}] |= it->second;
             }
         }
+        epDt[q].insert(q0);
     }
+    cout << F << ' ' << q0 << endl;
+    F.insert(q0);
 
-    return NFA<int, S_t>(sigma, Q, F, q0, delta);
+    return NFA<int, S_t>(sigma, Q, F, q0, delta, epDt);
 }
 
 template <typename Q_t, typename S_t>
@@ -238,7 +279,11 @@ NFA<int, S_t> NFA<Q_t, S_t>::baseNFA(int start) const
     
     SetUq Q_i = Q_;
     Q_i.erase(q0_);
+    
     unordered_set<int> F;
+    if (is_member(q0_, F_))
+        F.insert(start);
+            
     int i = start + 1;
     for (auto p: Q_i)
     {
@@ -252,12 +297,14 @@ NFA<int, S_t> NFA<Q_t, S_t>::baseNFA(int start) const
     }
 
     Mapi delta;
+    unordered_map<int, unordered_set<int>> epDt;
 
     for (auto q: Q_)
     {
+        int key = mapper[q];
         for (auto a: sigma_)
         {
-            int key = mapper[q];
+            
             auto it = delta_.find({q, a});
             if (it != delta_.end())
             {
@@ -268,14 +315,51 @@ NFA<int, S_t> NFA<Q_t, S_t>::baseNFA(int start) const
                 }
             }
         }
+        auto it = epDt_.find(q);
+        if (it != epDt_.end())
+        {
+            for (auto p: it->second)
+            {
+                int value = mapper[p];
+                epDt[key].insert(value);
+            }
+        }
     }
 
-    return NFA<int, S_t>(sigma_, Q, F, start, delta);
+    return NFA<int, S_t>(sigma_, Q, F, start, delta, epDt);
 }
 template <typename Q_t, typename S_t >
-NFA<int, S_t>::SetUq
-NFA<int, S_t>::epsilon_closure() const
+typename NFA<Q_t, S_t>::SetUq
+NFA<Q_t, S_t>::epsilon_closure(const SetUq & S) const
 {
+    SetUq DONE;
+    SetUq BOUNDARY = S;
+    SetUq NEW;
+
+    while (true)
+    {
+        cout << "oh no" << endl;
+        for (auto q: BOUNDARY)
+        {
+            auto it = epDt_.find(q);
+            if (it != epDt_.end())
+            {
+                SetUq s = it->second;
+                SetUq n = DONE | BOUNDARY;
+                NEW = s - n;
+            }
+        }
+        DONE |= BOUNDARY;
+
+        if (NEW.empty())
+            break;
+        else
+        {
+            BOUNDARY |= NEW;
+        }
+    }
+
+    return DONE;
 }
 
 template <typename Q_t, typename S_t >
@@ -287,6 +371,7 @@ ostream & operator<<(ostream & cout, const NFA< Q_t, S_t > & N)
     cout << "\tSet of States: " << N.Q_ << endl;
     cout << "\tTransitions: " << N.delta_ << endl;
     cout << "\tFinal States: " << N.F_ << endl;
+    cout << "\tEpsilon transition: " << N.epDt_ << endl;
 
     return cout;
 }

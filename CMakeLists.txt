@@ -5,6 +5,7 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
     include/NFA.h
     include/DFA.h
+    include/Regex.h
     include/STL_util.h
 )
 

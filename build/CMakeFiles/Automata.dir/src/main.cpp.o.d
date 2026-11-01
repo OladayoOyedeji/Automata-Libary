@@ -153,9 +153,10 @@ CMakeFiles/Automata.dir/src/main.cpp.o: \
  /usr/include/c++/15/bits/erase_if.h /usr/include/c++/15/unordered_map \
  /usr/include/c++/15/bits/unordered_map.h /usr/include/c++/15/set \
  /usr/include/c++/15/bits/stl_tree.h /usr/include/c++/15/bits/stl_set.h \
- /usr/include/c++/15/bits/stl_multiset.h /usr/include/c++/15/queue \
+ /usr/include/c++/15/bits/stl_multiset.h /usr/include/c++/15/stack \
  /usr/include/c++/15/deque /usr/include/c++/15/bits/stl_deque.h \
- /usr/include/c++/15/bits/deque.tcc /usr/include/c++/15/bits/stl_heap.h \
+ /usr/include/c++/15/bits/deque.tcc /usr/include/c++/15/bits/stl_stack.h \
+ /usr/include/c++/15/queue /usr/include/c++/15/bits/stl_heap.h \
  /usr/include/c++/15/bits/stl_queue.h /usr/include/c++/15/algorithm \
  /usr/include/c++/15/bits/stl_algo.h \
  /usr/include/c++/15/bits/algorithmfwd.h \
@@ -163,4 +164,6 @@ CMakeFiles/Automata.dir/src/main.cpp.o: \
  /usr/include/c++/15/bits/stl_tempbuf.h \
  /usr/include/c++/15/pstl/glue_algorithm_defs.h \
  /usr/include/c++/15/pstl/execution_defs.h \
+ /home/student/Desktop/Project/Automata/include/NFA.h \
+ /home/student/Desktop/Project/Automata/include/Regex.h \
  /home/student/Desktop/Project/Automata/include/NFA.h

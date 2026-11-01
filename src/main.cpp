@@ -1,5 +1,6 @@
 #include "DFA.h"
 #include "NFA.h"
+#include "Regex.h"
 
 int main()
 {
@@ -8,51 +9,45 @@ int main()
     typedef pair< Q_t, S_t > Q_t_S_t;
     typedef unordered_map< Q_t_S_t, Q_t > D_t;
     typedef unordered_map< Q_t_S_t, unordered_set<Q_t> > DN_t;
+    typedef unordered_map<Q_t, unordered_set<Q_t>> ET_t;
     
-    S_t a = "a";
-    S_t b = "b";
-    Q_t q0 = "q0";
-    Q_t q1 = "q1";
-    Q_t q2 = "q2";
-    
-    unordered_set< S_t > S {a, b};
-    unordered_set< Q_t > Q {q0, q1, q2};
-    unordered_set< Q_t > F {q2};
-    
-    D_t delta;
-    DN_t deltat;
-    
-    delta[{q0, a}] = q0;
-    deltat[{q0, a}].insert(q0);
-    
-    delta[{q0, b}] = q1;
-    deltat[{q0, b}].insert(q1);
-    
-    delta[{q1, a}] = q1;
-    deltat[{q1, a}].insert(q1);
-    
-    delta[{q1, b}] = q2;
-    deltat[{q1, b}].insert(q2);
-    
-    delta[{q2, a}] = q0;
-    deltat[{q2, a}].insert(q0);
-    
-    delta[{q2, b}] = q2;
-    deltat[{q2, b}].insert(q2);
-    
-    DFA< S_t, Q_t > M(S, Q, F, q0, delta);
-    NFA< S_t, Q_t > N(S, Q, F, q0, deltat);
-    vector< S_t > w {a, b, a, a};
-    cout << M << endl;
-    cout << M(w,true) << '\n'; // M(w)
+   //  // Basic construction
+//     cout << RegEx("") << endl;            // empty string (epsilon): edge case
+//     cout << RegEx("z") << endl;
+//     cout << RegEx("abcdef") << endl;
 
-    cout << M.intersection_(M) << endl;
+// // Union
+//     cout << (RegEx("a") | RegEx("a")) << endl;          // same operand twice
+//     cout << (RegEx("a") | RegEx("b") | RegEx("c")) << endl;   // chained
+//     cout << (RegEx("ab") | RegEx("")) << endl;          // union with epsilon
 
-    cout << "NFA: " << N << endl;
-    cout << "NFA base: " << N.baseNFA() << endl;
-    cout << "NFA | NFA: " << N.union_(N) << endl;
-    cout << "NFA*: " << N.KleneStar() << endl;
-    // cout << N.concatenate(N) << endl;
+// // Concatenation
+//     cout << (RegEx("a") & RegEx("b")) << endl;
+//     cout << (RegEx("ab") & RegEx("cd")) << endl;
+//     cout << (RegEx("") & RegEx("a")) << endl;           // epsilon is identity
+//     cout << (RegEx("a") & RegEx("")) << endl;
+
+// // Star
+//     cout << *RegEx("a") << endl;
+//     cout << *RegEx("") << endl;                         // epsilon* is epsilon
+//     cout << *(*RegEx("a")) << endl;                     // star of star
+//     cout << *(RegEx("a") | RegEx("b")) << endl;         // (a|b)*
+
+// // Plus
+//     cout << +RegEx("a") << endl;
+//     cout << +(RegEx("a") | RegEx("b")) << endl;         // (a|b)+
+//     cout << +(*RegEx("a")) << endl;                     // (a*)+
+
+// // Precedence and nesting
+//     cout << ((RegEx("a") | RegEx("b")) & RegEx("c")) << endl;   // (a|b)c
+    
+    RegEx r = ((RegEx("a") | RegEx("b")) & RegEx("c"));
+    cout << r << endl;
+    // cout << r.N_.epsilon_closure({0}) << endl;
+    cout << r.powerset_construction() << endl;
+    // cout << (RegEx("a") | (RegEx("b") & RegEx("c"))) << endl;   // a|bc
+    // cout << *(RegEx("ab") | RegEx("cd")) << endl;
+    // cout << (*RegEx("a") & *RegEx("b")) << endl;                // a*b*
     
     return 0;
 }

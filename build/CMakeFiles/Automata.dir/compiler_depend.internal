@@ -24,6 +24,7 @@ CMakeFiles/Automata.dir/src/main.cpp.o
  /home/student/Desktop/Project/Automata/src/main.cpp
  /home/student/Desktop/Project/Automata/include/DFA.h
  /home/student/Desktop/Project/Automata/include/NFA.h
+ /home/student/Desktop/Project/Automata/include/Regex.h
  /home/student/Desktop/Project/Automata/include/STL_util.h
  /usr/include/alloca.h
  /usr/include/asm-generic/bitsperlong.h
@@ -164,6 +165,7 @@ CMakeFiles/Automata.dir/src/main.cpp.o
  /usr/include/c++/15/bits/stl_pair.h
  /usr/include/c++/15/bits/stl_queue.h
  /usr/include/c++/15/bits/stl_set.h
+ /usr/include/c++/15/bits/stl_stack.h
  /usr/include/c++/15/bits/stl_tempbuf.h
  /usr/include/c++/15/bits/stl_tree.h
  /usr/include/c++/15/bits/stl_uninitialized.h
@@ -212,6 +214,7 @@ CMakeFiles/Automata.dir/src/main.cpp.o
  /usr/include/c++/15/pstl/pstl_config.h
  /usr/include/c++/15/queue
  /usr/include/c++/15/set
+ /usr/include/c++/15/stack
  /usr/include/c++/15/stdexcept
  /usr/include/c++/15/streambuf
  /usr/include/c++/15/string

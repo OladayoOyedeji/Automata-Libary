@@ -31,10 +31,11 @@ public:
     bool operator()(const vector<S_t> & word, bool verbose=false);
     SuperSetUq Moore_partition_(const SuperSetUq & P) const;
     SuperSetUq Moore_partition(const SetUq & S, const SuperSetUq & P);
-    DFA<SetUq, S_t> minimizeDFA();
+    DFA<SetUq, S_t> minimizeDFA() const;
     DFA<PairQQ, S_t> intersection_(const DFA & M) const;
     DFA<PairQQ, S_t> union_(       const DFA & M) const;
     DFA & compDFA();
+    DFA<int, S_t> baseDFA() const;
     
     Q_t   q0_;
     SetUq Q_;
@@ -126,7 +127,7 @@ DFA<Q_t, S_t>::Moore_partition(const SetUq & S, const SuperSetUq & P)
 }
 
 template <typename Q_t, typename S_t>
-DFA<typename DFA<Q_t, S_t>::SetUq, S_t> DFA<Q_t, S_t>::minimizeDFA()
+DFA<typename DFA<Q_t, S_t>::SetUq, S_t> DFA<Q_t, S_t>::minimizeDFA() const
 {
     SuperSetUq P;
     P.insert(Q_ - F_); P.insert(F_);
@@ -143,6 +144,8 @@ DFA<typename DFA<Q_t, S_t>::SetUq, S_t> DFA<Q_t, S_t>::minimizeDFA()
 
     SuperSetUq Q = P;
     SetUq q0;
+
+    // return DFA< SetUq, S_t>(sigma_, Q, F, q0, delta);
 }
 
 template <typename Q_t, typename S_t>
@@ -181,6 +184,52 @@ DFA<Q_t, S_t> & DFA<Q_t, S_t>::compDFA()
     F_ = Q_ - F_;
 
     return *this;
+}
+
+template <typename Q_t, typename S_t>
+DFA<int, S_t> baseDFA(int start) const
+{
+    unordered_map<Q_t, int> mapper;
+    SetUi Q;
+    Q.insert(start);
+    mapper[q0_] = start;
+
+    SetUq Q_i = Q_;
+    Q_i.erase(q0_);
+    
+    SetUi F;
+    if (is_member(q0_, F_))
+        F.insert(start);
+
+    int i = start + 1;
+    for (auto p: Q_i)
+    {
+        mapper[p] = i;
+        Q.insert(i);
+        if (is_member(p, F_))
+        {
+            F.insert(i);
+        }
+        i++;
+    }
+    unordered_map< pair<int, S_t>, int> delta;
+
+    for (auto q: Q_)
+    {
+        int key = mapper[q];
+        for (auto a: sigma_)
+        {
+            auto it = delta_.find({q, a});
+            if (it != delta_.end())
+            {
+                auto p = it->second;
+                int value = mapper[p];
+                delta[{key, a}].insert(value);
+            }
+        }
+    }
+
+    return DFA<int, S_t>(sigma_, Q, F, start, delta);
 }
 
 template < typename Q_t, typename S_t>
