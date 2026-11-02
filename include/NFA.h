@@ -12,10 +12,15 @@
 
 #include "STL_util.h"
 /**
- * @brief Q_t is the type for the for states and the S_t
- is the type for transitions
+ * @class NFA
+ * @brief Nondeterministic Finite-State Machine
+ *
+ * Represents a nondeterministic finite-state machine parameterized
+ * by its state type and input symbol type.
+ *
+ * @tparam Q_t State type.
+ * @tparam S_t Input symbol type.
  */
-
 template <typename Q_t, typename S_t>
 class NFA
 {
@@ -34,6 +39,11 @@ class NFA
     using Map = unordered_map<Q_t, SetUq>;
     using MapUi = unordered_map<int, SetUi>;
 public:
+ /**
+ * @brief An NFA contains the alphabets, the set of states, the Final states which is
+ a subset of the set of states, the start state, the transition function and the epsilon
+  transition function.
+ */
     NFA(const SetUs & sigma, const SetUq & Q,
         const SetUq & F,     const Q_t   & q0,
         const Mapt  & delta, const Map   & epDt);
@@ -96,6 +106,11 @@ NFA<Q_t, S_t>::NFA(const NFA & N)
     : q0_(N.q0_), Q_(N.Q_), sigma_(N.sigma_), delta_(N.delta_), F_(N.F_), epDt_(N.epDt_)
 {}
 
+/**
+ * @brief I implemented the word processing with a depth first graph search, i dont think i used the
+ processing because the word processing is much slower than the dfa search.
+ * @name Word Processor
+ */
 template <typename Q_t, typename S_t>
 bool NFA<Q_t, S_t>::operator()(const vector<S_t> & word, bool verbose)
 {
@@ -148,6 +163,10 @@ bool NFA<Q_t, S_t>::operator()(const vector<S_t> & word, bool verbose)
     return true;
 }
 
+/**
+ * @brief The union is connecting both NFA's to a start state with a epsilon
+ * @name Union Operation
+ */
 template <typename Q_t, typename S_t>
 NFA<int, S_t> NFA<Q_t, S_t>::union_(const NFA & N) const
 {
@@ -193,6 +212,12 @@ NFA<int, S_t> NFA<Q_t, S_t>::union_(const NFA & N) const
     return NFA<int, S_t>(sigma, Q, F, q0, delta, epDt);
 }
 
+/**
+ * @brief Concatenation is the connection of the final states of the first NFA to the
+ start states of the second NFA with epsilons connections, there is an extra state that
+ both are connected to
+ * @name Concatenate Operation
+ */
 template <typename Q_t, typename S_t>
 NFA<int, S_t> NFA<Q_t, S_t>::concatenate(const NFA & N) const
 {
@@ -232,6 +257,11 @@ NFA<int, S_t> NFA<Q_t, S_t>::concatenate(const NFA & N) const
     return NFA<int, S_t>(sigma, Q, F, N0.q0_, delta, epDt);
 }
 
+/**
+ * @brief I implemented a KleneStar by connecting the final states to the start state and
+ making the start state a final state.
+ * @name Klene Star Operation
+ */
 template <typename Q_t, typename S_t>
 NFA<int, S_t> NFA<Q_t, S_t>::KleneStar() const
 {
@@ -269,6 +299,12 @@ NFA<int, S_t> NFA<Q_t, S_t>::KleneStar() const
     return NFA<int, S_t>(sigma, Q, F, q0, delta, epDt);
 }
 
+/**
+ * @brief For most of the application of the NFA i needed to represent the states as integers
+ to make it easier to add and to do operations, so this method is to convert the complex representation
+ of states to an integer state with a starting point
+ * @name Base NFA
+ */
 template <typename Q_t, typename S_t>
 NFA<int, S_t> NFA<Q_t, S_t>::baseNFA(int start) const
 {
@@ -328,6 +364,12 @@ NFA<int, S_t> NFA<Q_t, S_t>::baseNFA(int start) const
 
     return NFA<int, S_t>(sigma_, Q, F, start, delta, epDt);
 }
+
+/**
+ * @brief epsilon closure is to compute all the states that a set of states can reach with
+ epsilon transitions
+ * @name Epsilon Closure
+ */
 template <typename Q_t, typename S_t >
 typename NFA<Q_t, S_t>::SetUq
 NFA<Q_t, S_t>::epsilon_closure(const SetUq & S) const

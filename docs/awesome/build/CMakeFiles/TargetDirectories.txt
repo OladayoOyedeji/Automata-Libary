@@ -1,0 +1,2 @@
+/home/student/Desktop/Project/Automata-Libary/docs/awesome/build/CMakeFiles/edit_cache.dir
+/home/student/Desktop/Project/Automata-Libary/docs/awesome/build/CMakeFiles/rebuild_cache.dir

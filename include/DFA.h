@@ -1,3 +1,11 @@
+/**
+ * @file DFA.h
+ * @author Oladayo Oyedeji
+ * @date 11/01/2026
+ * @brief DFA implementation
+ *
+ * @details 
+ */
 #ifndef DFA_H
 #define DFA_H
 

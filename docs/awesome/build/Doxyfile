@@ -1,0 +1,22 @@
+PROJECT_NAME           = "Automata"
+PROJECT_NUMBER         = 1.0
+
+OUTPUT_DIRECTORY       = /home/student/Desktop/Project/Automata-Libary/docs/awesome/build/docs
+
+INPUT                  = /home/student/Desktop/Project/Automata-Libary/include \
+                         /home/student/Desktop/Project/Automata-Libary/src
+
+RECURSIVE              = YES
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = YES
+
+HTML_EXTRA_STYLESHEET  = /home/student/Desktop/Project/Automata-Libary/docs/awesome/build/_deps/doxygen-awesome-css-src/doxygen-awesome.css
+
+QUIET                  = YES
+WARNINGS               = YES
+
+EXTRACT_ALL            = NO
+HIDE_UNDOC_CLASSES     = YES
+HIDE_UNDOC_MEMBERS     = YES
+EXTRACT_PRIVATE        = NO
