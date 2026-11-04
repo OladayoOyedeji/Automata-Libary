@@ -67,6 +67,32 @@ using namespace std;
 // Z = powset(X)
 //
 //=============================================================================
+template < typename T >
+bool operator==(const std::list<T> & l0, const std::list< T> & l1)
+{
+    auto p = l0.begin();
+    auto q = l1.begin();
+
+    int size = l0.size();
+    
+    if (size != l1.size())
+        return false;
+
+    while (size != 0)
+    {
+        if (*p != *q) return false;
+        p++; q++;
+        --size;
+    }
+
+    return true;
+}
+
+template < typename T >
+bool operator!=(const std::list<T> & l0, const std::list< T> & l1)
+{
+    return !(l0 == l1);
+}
 
 //-----------------------------------------------------------------------------
 // Prototypes of std::to_string extensions
@@ -181,6 +207,9 @@ bool has(const S & X, const T & e);
 //-----------------------------------------------------------------------------
 template < typename T >
 void set_union(T & x, const T & y);
+
+// template < typename T , typename S >
+// unordered_set<T> set_union(const variant<T, S>  & x, const unordered_set<T> & y);
 
 template < typename T >
 std::set< T > & operator|=(std::set< T > & x, const std::set< T > & y);
@@ -530,6 +559,18 @@ void set_union(T & x, const T & y)
         x.insert(p);
     }
 }
+
+// template < typename T , typename S >
+// unordered_set<T> set_union(const variant<T, S>  & x, const unordered_set<T> & y)
+// {
+//     for (auto & elements: x)
+//     {
+//         int index = elements.index();
+//         if (inde)
+//         x.insert(p);
+//     }
+// }
+
 template < typename T >
 std::set< T > & operator|=(std::set< T > & x, const std::set< T > & y)
 {

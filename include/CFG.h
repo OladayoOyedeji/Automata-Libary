@@ -4,6 +4,9 @@
 #include "STL_util.h"
 #include <variant>
 
+template <typename V_t, typename S_t>
+ostream & operator<<(ostream & cout, const variant<V_t, S_t> & v);
+
 template <typename V_t, typename S_t >
 class CFG
 {
@@ -80,29 +83,61 @@ void CFG<V_t, S_t>::Normalize()
 }
 
 template <typename V_t, typename S_t>
+bool belongs(list<variant<V_t, S_t>> & varlist, unordered_set<V_t> & s)
+{
+    for (auto & sym: varlist)
+    {
+        int index = sym.index();
+        if (index == 1)
+            return false;
+        
+        V_t var = get<0>(sym);
+        if (!(is_member(var, s)))
+            return false;
+    }
+    return true;
+}
+
+template <typename V_t, typename S_t>
+ostream & operator<<(ostream & cout, const variant<V_t, S_t> & v)
+{
+    const int index = v.index();
+    // cout << "<" << index << " ";
+    if (index == 0)
+        cout << get<0>(v);
+    else
+        cout << get<1>(v);
+    
+    return cout;
+}
+
+template <typename V_t, typename S_t>
 void CFG<V_t, S_t>::remove_E_productions()
 {
     Setv Old_Nullables = NULLABLES_;
 
     while (true)
     {
-        for (auto q: V_)
+        for (auto var: V_)
         {
-            auto p = P_.find(q);
-            if ( is_member(q, NULLABLES_) || p == P_.end() )
-                break;
+            auto p = P_.find(var);
+            // cout << var << endl;
+            if ( is_member(var, NULLABLES_) || p == P_.end() )
+                continue;
 
             for (auto r: p->second)
             {
-                Setv union_ = unordered_set<V_t>(r.begin(), r.end()) | NULLABLES_;
+                // Setv union_ = unordered_set<V_t>(r.begin(), r.end()) | NULLABLES_;
 
-                if (union_ == NULLABLES_)
+                if (belongs(r, NULLABLES_))
                 {
-                    Old_Nullables.insert(q);
+                    Old_Nullables.insert(var);
                 }
                 
             }
         }
+        
+        
         if (Old_Nullables != NULLABLES_)
         {
             NULLABLES_ = Old_Nullables;
@@ -111,6 +146,7 @@ void CFG<V_t, S_t>::remove_E_productions()
             break;
         
     }
+    // cout << Old_Nullables << ' ' << NULLABLES_ << endl;
 
     // perform substitution on the nullable variables
     for (auto var: V_)
@@ -119,30 +155,97 @@ void CFG<V_t, S_t>::remove_E_productions()
         Bodies temp_varset = varset;
         while (!temp_varset.empty())
         {
-            auto symlis = *temp_varset.begin();
+            // cout << temp_varset << endl;
+            // auto old_symlis = *temp_varset.begin();
+            auto symlis = *temp_varset.begin();;
             temp_varset.erase(temp_varset.begin());
-            
-            for (auto sym: symlis)
+
+            // cout << symlis << endl;
+            auto p = symlis.begin();
+            while (p != symlis.end())
             {
+                auto sym = *p;
+                auto q = p;
+                p++;
+                
                 if (sym.index() == 1)
                     continue;
                 
+                // cout << "Symbols " << sym << endl;
                 V_t var = get<0>(sym);
+                
                 if (!(is_member(var, NULLABLES_)))
+                {
+                    // cout << true << endl;
                     continue;
-                symlis.remove(var);
-                break;
+                }
+                
+                // auto new_symlis = symlis;
+                // auto it = find(symlis.rbegin(), symlis.rend(), *q);
+                // new_symlis.remove(*q);
+
+                auto new_symlis = list<Symbol>(symlis.begin(), q);
+                q++;
+                new_symlis.insert(new_symlis.end(), q, symlis.end());
+
+                // cout << "new: [";
+                // for (auto x: new_symlis)
+                // {
+                //     cout << x;
+                // }
+                // cout << "] old: [";
+                // for (auto x: symlis)
+                // {
+                //     cout << x;
+                // }
+                // cout << "]" << endl;
+
+                if (!new_symlis.empty())
+                {
+                    temp_varset.insert(new_symlis);
+                    varset.insert(new_symlis);
+                    // cout << temp_varset << endl;
+                }
             }
-            temp_varset.insert(symlis);
         }
-        P_[var] = temp_varset;
+        
+        P_[var] = varset;
     }
     
 }
 
 template <typename V_t, typename S_t>
 void CFG<V_t, S_t>::remove_unit_productions()
-{}
+{
+    unordered_map<V_t, set<V_t>> unit_production;
+    unordered_set<V_t> Closed_List;
+    stack<V_t> fringe;
+    fringe.push(S_);
+
+    while (!fringe.empty())
+    {
+        V_t top = fringe.top();
+        fringe.pop();
+
+        auto it = P_.find(top);
+        if (it == P_.end()) continue;
+
+        for (auto symlist: it->second)
+        {
+            if (symlist.len() != 1)
+                continue;
+
+            auto p = symlist.begin();
+            int index = *p.index();
+            if (index == 1) continue;
+
+            V_t var = get<0>(*p);
+
+            fringe.push(var);
+        }
+    }
+    
+}
 
 template <typename V_t, typename S_t>
 void CFG<V_t, S_t>::remove_useless_variables()
@@ -158,18 +261,6 @@ void CFG<V_t, S_t>::remove_useless_variables()
 //     Token x;
 //     vector<Parse_Tree_Node> children_;
 // };
-
-template <typename V_t, typename S_t>
-ostream & operator<<(ostream & cout, const variant<V_t, S_t> & v)
-{
-    const int index = v.index();
-    if (index == 0)
-        cout << get<0>(v);
-    else
-        cout << get<1>(v);
-    
-    return cout;
-}
 
 template <typename V_t, typename S_t>
 ostream & operator<<(ostream & cout, const CFG<V_t, S_t> & G)
