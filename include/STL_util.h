@@ -11,6 +11,7 @@
 #include <stack>
 #include <queue>
 #include <algorithm>
+#include <variant>
 
 using namespace std;
 
@@ -78,6 +79,9 @@ namespace std
     
     template < typename S, typename T >
     std::string to_string(const std::pair< S, T > & x);
+
+    template < typename S, typename T >
+    std::string to_string(const std::variant< S, T > & x);
     
     template < typename T >
     std::string container_to_string_(const T & x,
@@ -120,6 +124,9 @@ namespace std
 {
     template < typename S, typename T >
     struct hash< std::pair< S, T > >;
+
+    // template < typename S, typename T >
+    // struct hash< std::variant< S , T > >;
     
     template < typename T >
     struct hash< std::vector< T > >;
@@ -299,6 +306,15 @@ namespace std
             ")";
     }
 
+    template < typename S, typename T >
+    std::string to_string(const std::variant< S, T > & x)
+    {
+        if (x.index() == 0)
+            return "<" + to_string(std::get<0>(x)) + ":0>";
+        else
+            return "<" + to_string(std::get<1>(x)) + ":1>";
+    }
+
     template < typename T >
     std::string container_to_string_(const T & x,
                                      const std::string & begin,
@@ -322,6 +338,13 @@ namespace std
     {
         return container_to_string_(x, "[", "]");
     }
+
+    template < typename T >
+    std::string to_string(const std::list< T > & x)
+    {
+        return container_to_string_(x, "[", "]");
+    }
+
     
     // template < typename S, typename T, typename LESS >
     // std::string to_string(const std::unordered_map< S, T > & x,
@@ -377,6 +400,19 @@ namespace std
         }
     };
 
+    // template < typename S, typename T >
+    // struct hash< std::variant< S , T > >
+    // {
+    //     size_t operator()(const std::pair< S, T > & v) const
+    //     {
+    //         std::hash< std::string > hasher;
+    //         string x = to_string(get<0>(v));
+    //         x += to_string(get<1>(v));
+            
+    //         return hasher(x);
+    //     }
+    // };
+    
     template < typename T >
     struct hash< std::vector< T > >
     {

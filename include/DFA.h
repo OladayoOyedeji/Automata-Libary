@@ -30,6 +30,9 @@ class DFA
     using SuperSetUq = unordered_set< SetUq >;
     using PairQS = pair<Q_t, S_t>;
     using PairQQ = pair<Q_t, Q_t>;
+    using PairS = pair<int, S_t>;
+    using SetUi = unordered_set<int>;
+    using Mapi = unordered_map<PairS, SetUi>;
     using Mapt = unordered_map<PairQS, Q_t>;
 public:
     DFA(const SetUs & sigma, const SetUq & Q,
@@ -43,7 +46,7 @@ public:
     DFA<PairQQ, S_t> intersection_(const DFA & M) const;
     DFA<PairQQ, S_t> union_(       const DFA & M) const;
     DFA & compDFA();
-    DFA<int, S_t> baseDFA() const;
+    DFA<int, S_t> baseDFA(int start=0) const;
     
     Q_t   q0_;
     SetUq Q_;
@@ -195,7 +198,7 @@ DFA<Q_t, S_t> & DFA<Q_t, S_t>::compDFA()
 }
 
 template <typename Q_t, typename S_t>
-DFA<int, S_t> baseDFA(int start) const
+DFA<int, S_t> DFA<Q_t, S_t>::baseDFA(int start) const
 {
     unordered_map<Q_t, int> mapper;
     SetUi Q;
