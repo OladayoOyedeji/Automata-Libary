@@ -55,60 +55,111 @@ int main()
 // // Precedence and nesting
 //     cout << ((RegEx("a") | RegEx("b")) & RegEx("c")) << endl;   // (a|b)c
     
-    RegEx r = ((RegEx("a") | RegEx("b")) & RegEx("c"));
-    cout << r << endl;
-    // cout << r.N_.epsilon_closure({0}) << endl;
-    cout << r.powerset_construction() << endl;
-    // cout << (RegEx("a") | (RegEx("b") & RegEx("c"))) << endl;   // a|bc
-    // cout << *(RegEx("ab") | RegEx("cd")) << endl;
-    // cout << (*RegEx("a") & *RegEx("b")) << endl;                // a*b*
-    CFG<string, string> G("S");
-    cout << G << endl;
+//     RegEx r = ((RegEx("a") | RegEx("b")) & RegEx("c"));
+//     cout << r << endl;
+//     // cout << r.N_.epsilon_closure({0}) << endl;
+//     cout << r.powerset_construction() << endl;
+//     // cout << (RegEx("a") | (RegEx("b") & RegEx("c"))) << endl;   // a|bc
+//     // cout << *(RegEx("ab") | RegEx("cd")) << endl;
+//     // cout << (*RegEx("a") & *RegEx("b")) << endl;                // a*b*
+//    //  CFG<string, string> G("S");
+// //     cout << G << endl;
     typedef variant<string, string> Symbol;
     typedef list<Symbol>            Body;
 
+//     std::variant<string, string> x;
+//     std::variant<string, string> y;
+//     x.emplace<0>("A");
+    
+//     y.emplace<0>("C");
+
+    
+//     Body body = {x, y, x};
+//     G.add_production("S", body);
+    
+//     x.emplace<1>("a");
+//     y.emplace<0>("A");
+//     body = {x, y, x};
+//     G.add_production("A", body);
+
+//     y.emplace<0>("B");
+//     body = {y};
+//     G.add_production("A", body);
+
+//     x.emplace<0>("C");
+//     body = {x};
+//     G.add_production("A", body);
+
+//     x.emplace<1>("b");
+//     y.emplace<0>("B");
+//     body = {x, y};
+//     G.add_production("B", body);
+    
+//     body = {x};
+//     G.add_production("B", body);
+
+//     x.emplace<1>("c");
+//     y.emplace<0>("C");
+//     body = {x, y};
+//     G.add_production("C", body);
+
+//     G.add_e_transition("C");
+    
+//     cout << G << endl;
+    
+//     // G.remove_E_productions();
+//     // cout << G << endl;
+//     // G.remove_unit_productions();
+// // cout << G << endl;
+
+//     G.Normalize();
+//     cout << G << endl;
+
+    CFG<string, string> G("S");
+    
     std::variant<string, string> x;
     std::variant<string, string> y;
-    x.emplace<0>("A");
-    
-    y.emplace<0>("C");
-
-    
-    Body body = {x, y, x};
-    G.add_production("S", body);
-    
     x.emplace<1>("a");
     y.emplace<0>("A");
-    body = {x, y, x};
-    G.add_production("A", body);
+    Body body = {x, y};
 
-    y.emplace<0>("B");
-    body = {y};
-    G.add_production("A", body);
-
+    G.add_production("S",body);
+    
     x.emplace<0>("C");
-    body = {x};
-    G.add_production("A", body);
+    y.emplace<0>("B");
+    body = {y, x};
+    G.add_production("S",body);
 
     x.emplace<1>("b");
-    y.emplace<0>("B");
-    body = {x, y};
-    G.add_production("B", body);
-    
     body = {x};
-    G.add_production("B", body);
+    G.add_production("A", body);
 
-    x.emplace<1>("c");
-    y.emplace<0>("C");
     body = {x, y};
+    G.add_production("A", body);
+
+    y.emplace<1>("a");
+    x.emplace<0>("B");
+    body = {y, x};
+
+    G.add_production("B", body);
+    G.add_e_transition("B");
+
+    x.emplace<0>("C");
+    body = {y, x};
+    
+    G.add_production("C", body);
+    x.emplace<0>("D");
+    body = {x};
+    
     G.add_production("C", body);
 
-    G.add_e_transition("C");
+    y.emplace<1>("b");
+    body = {y,x};
+    G.add_production("D", body);
     
     cout << G << endl;
 
-    G.remove_E_productions();
-    cout << G << endl;
+    G.remove_useless_variables();
     
     return 0;
 }

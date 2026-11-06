@@ -193,6 +193,20 @@ std::ostream & operator<<(std::ostream & cout,
 template < typename T >
 std::ostream & operator<<(std::ostream & cout, const std::set< T > & s);
 
+template < typename T >
+std::ostream & operator<<(std::ostream & cout, const list< T > & l)
+{
+    cout << '[';
+    string delim = "";
+    for (auto p: l)
+    {
+        cout << delim << p;
+        delim = ", ";
+    }
+    cout << ']';
+    return cout;
+}
+
 //-----------------------------------------------------------------------------
 // Prototypes of membership
 //-----------------------------------------------------------------------------
@@ -258,6 +272,10 @@ const std::unordered_set< T > & operator-=(std::unordered_set< T > & X,
 template < typename T >
 std::unordered_set< T > operator-(const std::unordered_set< T > & X,
                                   const std::unordered_set< T > & Y);
+
+// template < typename T, typename S >
+// std::unordered_set< T > operator-(const std::unordered_set< variant<T, S> > & X,
+//                                   const std::unordered_set< T > & Y);
 
 template < typename T >
 const std::set< T > & operator-=(std::set< T > & X, const std::set< T > & Y);
@@ -532,6 +550,19 @@ std::unordered_set< T > operator-(const std::unordered_set< T > & X,
     diff -= Y;
     return diff;
 }
+
+
+// template < typename T, typename S >
+// std::unordered_set< T > operator-(const std::unordered_set< variant<T, S> > & X,
+//                                   const std::unordered_set< T > & Y)
+// {
+//     for (auto p: Y)
+//     {
+//         variant<T, S> v;
+//         v.emplace<0>(p);
+//         if (is_member(p, ))
+//     }
+// }
 
 template < typename T >
 const std::set< T > & operator-=(std::set< T > & X, const std::set< T > & Y)
